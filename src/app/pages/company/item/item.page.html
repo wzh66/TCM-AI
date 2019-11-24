@@ -1,0 +1,59 @@
+<ion-content>
+  <ion-card class="info" *ngIf="data">
+    <ion-list>
+      <ion-item lines="full">
+        <ion-label>企业名称</ion-label>
+        <ion-note>{{data.company}}</ion-note>
+      </ion-item>
+      <ion-item lines="full">
+        <ion-label>所属区域</ion-label>
+        <ion-note>{{data.province + data.city + data.area}}</ion-note>
+      </ion-item>
+      <ion-item lines="full">
+        <ion-label>所属行业</ion-label>
+        <ion-note>{{data.industryNames}}</ion-note>
+      </ion-item>
+      <ion-item lines="full">
+        <ion-label>联系人</ion-label>
+        <ion-note>{{data.name}}</ion-note>
+      </ion-item>
+      <ion-item (click)="onCall(data.mobile)" lines="full" detail>
+        <ion-label>联系电话</ion-label>
+        <ion-note>{{data.mobile}}</ion-note>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-label>备注</ion-label>
+        <ion-note>{{data.remark}}</ion-note>
+      </ion-item>
+    </ion-list>
+  </ion-card>
+  <ion-card class="actions">
+    <ion-list>
+      <ion-item lines="full" detail>
+        <a [routerLink]="['/pages/plan/list',id]">查看培育方案</a>
+      </ion-item>
+      <ion-item lines="full" detail>
+        <a [routerLink]="['/pages/company/case/list',id]">查看行业案例</a>
+      </ion-item>
+      <ion-item lines="full" detail>
+        <a [routerLink]="['/pages/company/analysis',id]">数据分析简版</a>
+      </ion-item>
+      <ion-item lines="full" detail>
+        <a [routerLink]="['/pages/company/follow/list',id]">跟进记录</a>
+      </ion-item>
+      <ion-item lines="full" detail>
+        <a [routerLink]="['/pages/company/log',id]">查看修改记录</a>
+      </ion-item>
+      <ion-item lines="full" detail>
+        <a [routerLink]="['/pages/company/edit',id]">修改企业信息</a>
+      </ion-item>
+      <ion-item lines="none" detail>
+        <a class="delete" href="javascript:;" (click)="delete()">
+          <ion-text color="danger">
+            删除企业信息
+          </ion-text>
+        </a>
+      </ion-item>
+    </ion-list>
+  </ion-card>
+</ion-content>

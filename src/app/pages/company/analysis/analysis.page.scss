@@ -1,0 +1,29 @@
+wingblank {
+  margin: 15px;
+
+  &.title {
+    min-height: auto;
+
+    &::ng-deep {
+      .am-card {
+        min-height: auto;
+        padding-bottom: 0;
+
+        .am-card-header {
+          font-size: 0.15rem;
+        }
+      }
+    }
+  }
+}
+
+.warn {
+  color: #FF9900;
+}
+
+cardheader {
+  .count {
+    color: #666;
+    margin-left: 10px;
+  }
+}

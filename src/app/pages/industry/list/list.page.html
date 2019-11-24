@@ -1,0 +1,18 @@
+<ion-content>
+  <app-empty *ngIf="data && data?.length < 1"></app-empty>
+  <ion-list *ngIf="data && data?.length > 0">
+    <ion-list-header (click)="presentModal()">
+      {{listHeader}}
+      <ion-icon name="arrow-forward"></ion-icon>
+    </ion-list-header>
+    <ion-card [routerLink]="['/pages/industry/item',item.id]" *ngFor="let item of data" detail>
+      <ion-card-header>
+        <ion-card-subtitle>{{item.industryNames}}</ion-card-subtitle>
+        <ion-card-title>{{item.caseName}}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p>{{item.summaryContent}}</p>
+      </ion-card-content>
+    </ion-card>
+  </ion-list>
+</ion-content>

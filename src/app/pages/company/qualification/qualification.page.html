@@ -1,0 +1,68 @@
+<ion-content>
+  <form [formGroup]="formGroup" novalidate>
+    <ng-container *ngIf="type === '0'" translate="yes">
+      <mat-form-field>
+        <mat-label>年份</mat-label>
+        <input (click)="datePicker('uniqueKey')" type="text" [value]="formGroup.get('uniqueKey').value" matInput value="" placeholder="请输入年份" required>
+        <button (click)="datePicker('uniqueKey')" mat-button matSuffix mat-icon-button>
+          <ion-icon name="arrow-down"></ion-icon>
+        </button>
+      </mat-form-field>
+    </ng-container>
+    <ng-container *ngIf="type === '1'" translate="yes">
+      <mat-form-field>
+        <mat-label>项目名称</mat-label>
+        <input matInput formControlName="uniqueKey" placeholder="请输入项目名称" required>
+        <mat-error *ngIf="formGroup.get('uniqueKey').hasError('required')">
+          项目名称是 <strong>必填</strong> 项
+        </mat-error>
+      </mat-form-field>
+    </ng-container>
+    <ng-container *ngIf="type === '2'" translate="yes">
+      <mat-form-field>
+        <mat-label>姓名</mat-label>
+        <input formControlName="uniqueKey" matInput value="" placeholder="请输入姓名" required>
+        <mat-error *ngIf="formGroup.get('uniqueKey').hasError('required')">
+          姓名 <strong>必填</strong> 项
+        </mat-error>
+      </mat-form-field>
+    </ng-container>
+  </form>
+  <form *ngIf="form" [formGroup]="form" novalidate>
+    <ng-container *ngFor="let condition of conditions" translate="yes">
+      <mat-form-field *ngIf="condition.fieldType === '0001'">
+        <input style="display: none" [formControlName]="condition.conditionId" matInput>
+        <mat-slide-toggle [formControlName]="condition.conditionId" matInput>{{condition.conditionName}}</mat-slide-toggle>
+      </mat-form-field>
+      <mat-form-field *ngIf="condition.fieldType === '0002'">
+        <mat-label>{{condition.conditionName}}</mat-label>
+        <input [formControlName]="condition.conditionId" matInput [placeholder]="'请输入' + condition.conditionName" pattern="(^([-]?)[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^([-]?)(0){1}$)|(^([-]?)[0-9]\.[0-9]([0-9])?$)" [maxlength]="12" [required]="!!condition.required">
+        <mat-error *ngIf="form.get(condition.conditionId + '').hasError('pattern') && !form.get(condition.conditionId + '').hasError('required')">
+          {{condition.conditionName}}必须是 <strong>数字</strong>
+        </mat-error>
+        <mat-error *ngIf="form.get(condition.conditionId + '').hasError('maxlength') && !form.get(condition.conditionId + '').hasError('required')">
+          {{condition.conditionName}}的长度不能大于 <strong>12</strong>
+        </mat-error>
+        <mat-error *ngIf="form.get(condition.conditionId + '').hasError('required')">
+          {{condition.conditionName}}是 <strong>必填</strong> 项
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field *ngIf="condition.fieldType === '0003'">
+        <mat-label>{{condition.conditionName}}</mat-label>
+        <input (click)="datePicker(condition.conditionId)" [formControlName]="condition.conditionId" matInput
+               placeholder="请选择时间" [required]="!!condition.required" readonly>
+        <button (click)="datePicker(condition.conditionId)" mat-button matSuffix mat-icon-button>
+          <ion-icon name="md-calendar"></ion-icon>
+        </button>
+      </mat-form-field>
+    </ng-container>
+  </form>
+</ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-button [disabled]="this.form.invalid" (click)="submit()" expand="full">
+      提交
+      <ion-ripple-effect></ion-ripple-effect>
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

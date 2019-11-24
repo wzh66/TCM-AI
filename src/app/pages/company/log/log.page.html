@@ -1,0 +1,26 @@
+<ion-content>
+  <app-empty *ngIf="data?.length < 1"></app-empty>
+  <ion-list *ngIf="data?.length > 0">
+    <ion-list-header>
+      修改记录
+    </ion-list-header>
+
+    <ion-item *ngFor="let item of data">
+      <ion-avatar slot="start">
+        <img [src]="FILE_PREFIX_URL + token.faceImg">
+      </ion-avatar>
+      <ion-label>
+        <h2>{{item.createByName}}</h2>
+        <h3>{{item.createTime | date : 'yyyy-MM-dd HH:mm:ss'}}</h3>
+        <p [innerHTML]="item.content | html"></p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+    <ion-infinite-scroll-content
+        loadingSpinner="bubbles"
+        loadingText="更多数据...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

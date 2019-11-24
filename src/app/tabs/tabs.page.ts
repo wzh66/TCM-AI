@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
+import {TabsService} from './tabs.service';
 
 @Component({
   selector: 'app-tabs',
@@ -6,7 +7,12 @@ import { Component } from '@angular/core';
   styleUrls: ['tabs.page.scss']
 })
 export class TabsPage {
+  state;
 
-  constructor() {}
+  constructor(private tabsSvc: TabsService) {
+    tabsSvc.get().subscribe(res => {
+      this.state = res;
+    });
+  }
 
 }

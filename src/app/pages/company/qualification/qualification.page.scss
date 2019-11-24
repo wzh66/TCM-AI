@@ -1,0 +1,21 @@
+form {
+  width: 90%;
+  margin: 30px auto;
+  mat-form-field {
+    width: 100%;
+    mat-slide-toggle {
+      display: block;
+      ::ng-deep {
+        label {
+          .mat-slide-toggle-bar {
+            position: absolute;
+            right: 0;
+          }
+          .mat-slide-toggle-content {
+            float: left !important;
+          }
+        }
+      }
+    }
+  }
+}

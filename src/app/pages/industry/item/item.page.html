@@ -1,0 +1,33 @@
+<ion-content>
+  <ion-list>
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>{{data?.caseName}}</mat-card-title>
+        <mat-card-subtitle>
+          <mat-chip-list>
+            <mat-chip *ngFor="let industry of data?.industryNames.split(',');let i = index" [color]="colors[i]" selectable="false" selected>{{industry}}</mat-chip>
+          </mat-chip-list>
+        </mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p [innerHTML]="data?.summaryContent"></p>
+      </mat-card-content>
+    </mat-card>
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>案例内容</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p [innerHTML]="data?.caseContent"></p>
+      </mat-card-content>
+    </mat-card>
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>案例启发</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p [innerHTML]="data?.inspireContent"></p>
+      </mat-card-content>
+    </mat-card>
+  </ion-list>
+</ion-content>

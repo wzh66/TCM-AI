@@ -1,0 +1,11 @@
+<form [formGroup]="form" class="auth-form">
+  <mat-form-field>
+    <mat-label>用户名</mat-label>
+    <input type="text" formControlName="account" matInput value="" placeholder="请输入用户名">
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>密码</mat-label>
+    <input type="password" formControlName="pwd" matInput value="" placeholder="请输入手机号">
+  </mat-form-field>
+  <button (click)="login()" type="button" mat-raised-button color="primary">登录</button>
+</form>

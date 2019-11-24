@@ -1,0 +1,49 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-segment (ionChange)="segmentChanged($event)">
+      <ion-segment-button [checked]="true" [value]="'0'">
+        <ion-label>企业</ion-label>
+      </ion-segment-button>
+      <ion-segment-button [checked]="false" [value]="'1'">
+        <ion-label>项目</ion-label>
+      </ion-segment-button>
+      <ion-segment-button [checked]="false" [value]="'2'">
+        <ion-label>员工</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <app-empty *ngIf="data?.length < 1"></app-empty>
+  <ion-list *ngIf="data?.length > 0">
+    <mat-card class="example-card" *ngFor="let item of data">
+      <mat-card-header>
+        <mat-card-title>{{item.name}}</mat-card-title>
+        <mat-card-subtitle>{{item.createTime | date : 'yyyy-MM-dd HH:mm:ss'}}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-actions align="end">
+        <ion-button size="small" color="light" [href]="FILE_PREFIX_URL + item.fileId">
+          <ion-icon name="md-download"></ion-icon>
+          下载
+        </ion-button>
+      </mat-card-actions>
+    </mat-card>
+  </ion-list>
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+    <ion-infinite-scroll-content
+        loadingSpinner="bubbles"
+        loadingText="Loading more data...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-button [routerLink]="['/pages/company/qualification',this.params.id]" [queryParams]="{type:params.demension}" expand="full">
+      <span *ngIf="params.demension === '0'">立即生成方案</span>
+      <span *ngIf="params.demension === '1'">添加项目</span>
+      <span *ngIf="params.demension === '2'">添加员工</span>
+      <ion-ripple-effect></ion-ripple-effect>
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

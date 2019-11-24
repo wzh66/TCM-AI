@@ -1,58 +1,96 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { TabsPage } from './tabs.page';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {AuthGuard} from '../pages/auth/auth.guard';
+import {TabsPage} from './tabs.page';
 
 const routes: Routes = [
   {
-    path: 'tabs',
+    path: 'pages',
     component: TabsPage,
     children: [
       {
-        path: 'tab1',
+        path: 'company',
+        canActivate: [AuthGuard],
         children: [
           {
             path: '',
             loadChildren: () =>
-              import('../tab1/tab1.module').then(m => m.Tab1PageModule)
+              import('../pages/company/company.module').then(m => m.CompanyPageModule)
           }
         ]
       },
       {
-        path: 'tab2',
+        path: 'policy',
+        canActivate: [AuthGuard],
         children: [
           {
             path: '',
             loadChildren: () =>
-              import('../tab2/tab2.module').then(m => m.Tab2PageModule)
+              import('../pages/policy/policy.module').then(m => m.PolicyPageModule)
+          },
+        ]
+      },
+      {
+        path: 'industry',
+        canActivate: [AuthGuard],
+        children: [
+          {
+            path: '',
+            loadChildren: () =>
+              import('../pages/industry/industry.module').then(m => m.IndustryPageModule)
+          },
+        ]
+      },
+      {
+        path: 'plan',
+        canActivate: [AuthGuard],
+        children: [
+          {
+            path: '',
+            loadChildren: () =>
+              import('../pages/plan/plan.module').then(m => m.PlanPageModule)
           }
         ]
       },
       {
-        path: 'tab3',
+        path: 'member',
+        canActivate: [AuthGuard],
         children: [
           {
             path: '',
             loadChildren: () =>
-              import('../tab3/tab3.module').then(m => m.Tab3PageModule)
+              import('../pages/member/member.module').then(m => m.MemberPageModule)
+          }
+        ]
+      },
+      {
+        path: 'auth',
+        children: [
+          {
+            path: '',
+            loadChildren: () =>
+              import('../pages/auth/auth.module').then(m => m.AuthPageModule)
           }
         ]
       },
       {
         path: '',
-        redirectTo: '/tabs/tab1',
+        redirectTo: '/pages/company/list',
         pathMatch: 'full'
       }
     ]
   },
   {
     path: '',
-    redirectTo: '/tabs/tab1',
+    redirectTo: '/pages/company/list',
     pathMatch: 'full'
   }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: [AuthGuard]
 })
-export class TabsPageRoutingModule {}
+export class TabsPageRoutingModule {
+}

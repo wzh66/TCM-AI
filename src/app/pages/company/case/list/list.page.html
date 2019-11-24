@@ -1,0 +1,24 @@
+<ion-content>
+  <app-empty *ngIf="data && data?.length < 1"></app-empty>
+  <ion-list *ngIf="data && data?.length > 0">
+    <ion-list-header>
+      "{{company.company}}" 相关的行业案例 <ion-text color="danger" style="display: inline">共{{total}}条</ion-text>
+    </ion-list-header>
+    <ion-item [routerLink]="['/pages/company/case/item',item.id]" *ngFor="let item of data" detail="">
+      <ion-label>
+        <h2>{{item.caseName}}</h2>
+        <h3>
+          <mat-chip-list>
+            <mat-chip *ngFor="let industry of item.industryNames.split(',');let i = index" [color]="colors[i]" selectable="false" selected>{{industry}}</mat-chip>
+          </mat-chip-list>
+        </h3>
+        <p>{{item.summaryContent}}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-button router-direction="back" (click)="back()" color="medium" expand="full">返回</ion-button>
+  </ion-toolbar>
+</ion-footer>

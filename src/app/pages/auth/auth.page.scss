@@ -1,0 +1,13 @@
+.auth-form {
+  position: absolute;
+  width: 80%;
+  left: 10%;
+  top: 30%;
+  mat-form-field {
+    width: 100%;
+  }
+  button {
+    width: 100%;
+    margin-top: 30px;
+  }
+}

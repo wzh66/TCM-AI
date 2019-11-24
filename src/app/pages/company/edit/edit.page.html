@@ -1,0 +1,76 @@
+<ion-content fullscreen class="ion-padding">
+    <form [formGroup]="form">
+      <mat-form-field>
+        <mat-label>企业名称</mat-label>
+        <input type="text" formControlName="company" matInput placeholder="请填写企业完整名称" required>
+        <mat-error *ngIf="form.get('company').hasError('pattern') && !form.get('company').hasError('required')">
+          企业名称必须是 <strong>中文</strong>
+        </mat-error>
+        <mat-error *ngIf="form.get('company').hasError('required')">
+          企业名称是 <strong>必填</strong> 项
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>所在地区</mat-label>
+        <input style="display: none" formControlName="province" matInput required>
+        <input style="display: none" formControlName="city" matInput required>
+        <input style="display: none" formControlName="area" matInput required>
+        <input (click)="cityPicker()" [value]="form.get('province').value + form.get('city').value + form.get('area').value" matInput placeholder="请选择所在地区" required readonly>
+        <button (click)="cityPicker()" mat-button matSuffix mat-icon-button><ion-icon name="arrow-down"></ion-icon></button>
+        <mat-error *ngIf="form.get('province').hasError('required')">
+          所在地区是 <strong>必填</strong> 项
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>详细地址</mat-label>
+        <input formControlName="address" matInput placeholder="请输入企业详细地址">
+      </mat-form-field>
+      <mat-form-field>
+        <input style="display: none" [placeholder]="'所属行业'" formControlName="industryIds" matInput required>
+        <mat-chip-list #chipList required>
+          <mat-chip *ngFor="let industry of selectedIndustries" (removed)="remove(industry)">
+            {{industry.industryName}}
+            <mat-icon matChipRemove>cancel</mat-icon>
+          </mat-chip>
+          <input [matChipInputFor]="chipList" (click)="presentModal()" [placeholder]="'所属行业'" matInput required readonly>
+        </mat-chip-list>
+        <button (click)="presentModal()" mat-button matSuffix mat-icon-button><ion-icon name="arrow-down"></ion-icon></button>
+        <mat-error *ngIf="form.get('industryIds').hasError('required')">
+          所属行业是 <strong>必填</strong> 项
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>联系人</mat-label>
+        <input type="text" formControlName="name" matInput placeholder="请填写企业联系人姓名" required>
+        <mat-error *ngIf="form.get('name').hasError('pattern') && !form.get('name').hasError('required')">
+          联系人必须是 <strong>中文</strong>
+        </mat-error>
+        <mat-error *ngIf="form.get('name').hasError('required')">
+          联系人名称是 <strong>必填</strong> 项
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>联系电话</mat-label>
+        <input type="text" formControlName="mobile" matInput placeholder="请填写企业联系人电话" required>
+        <mat-error *ngIf="form.get('mobile').hasError('pattern') && !form.get('mobile').hasError('required')">
+          请输入 <strong>正确</strong> 的联系电话
+        </mat-error>
+        <mat-error *ngIf="form.get('mobile').hasError('required')">
+          联系电话是 <strong>必填</strong> 项
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>备注</mat-label>
+        <textarea formControlName="remark" matInput placeholder="若有其他关于企业的详细情况可在此处记录，以便我们更好地服务客户..."></textarea>
+      </mat-form-field>
+    </form>
+  <p>注：带“<ion-text color="danger">*</ion-text>”为必填内容</p>
+</ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-button [disabled]="form.invalid" (click)="submit()" expand="full">
+      {{id === '0' ? submitted ? '下一步' : '确定新增' : '修改'}}
+      <ion-ripple-effect></ion-ripple-effect>
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

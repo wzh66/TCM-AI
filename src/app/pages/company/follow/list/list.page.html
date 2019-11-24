@@ -1,0 +1,33 @@
+<ion-content>
+  <app-empty *ngIf="data?.length < 1"></app-empty>
+  <ion-list *ngIf="data?.length > 0">
+    <ion-list-header>
+      跟进记录
+    </ion-list-header>
+
+    <ion-item *ngFor="let item of data">
+      <ion-avatar slot="start">
+        <img [src]="FILE_PREFIX_URL + token.faceImg">
+      </ion-avatar>
+      <ion-label>
+        <h2>{{item.createByName}}</h2>
+        <h3>{{item.followTime | date : 'yyyy-MM-dd HH:mm:ss'}}</h3>
+        <p>{{item.content}}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-grid class="ion-no-padding">
+      <ion-row>
+        <ion-col class="ion-no-padding">
+          <ion-button router-direction="back" (click)="back()" color="medium" expand="full">返回</ion-button>
+        </ion-col>
+        <ion-col class="ion-no-padding">
+          <ion-button [routerLink]="['/pages/company/follow/item',id]" color="primary" expand="full">添加</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-toolbar>
+</ion-footer>

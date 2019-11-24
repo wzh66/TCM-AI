@@ -1,0 +1,44 @@
+mat-card {
+  margin: 12px;
+  mat-card-header {
+    &::ng-deep {
+      .mat-card-header-text {
+        margin: 0;
+      }
+    }
+  }
+  &.user-info {
+    box-shadow: none;
+    mat-card-header {
+      &::ng-deep {
+        .mat-card-header-text {
+          margin: 0 auto;
+
+          mat-card-title {
+            background-color: var(--ion-color-primary) !important;
+            color: var(--ion-color-primary-contrast) !important;
+            width: 60px;
+            height: 60px;
+            text-align: center;
+            line-height: 60px;
+            border-radius: 30px;
+          }
+        }
+      }
+    }
+  }
+}
+ion-list {
+  mat-card {
+    mat-card-subtitle {
+      margin-bottom: 5px;
+      font-size: 12px;
+      font-weight: bold;
+    }
+  }
+  ion-list-header {
+    & + mat-card {
+      margin-top: 0;
+    }
+  }
+}

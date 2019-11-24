@@ -1,0 +1,57 @@
+<ion-header>
+  <ion-searchbar debounce="1000" (ionChange)="change($event)" placeholder="点击输入需要查询的政策名称"></ion-searchbar>
+  <ion-toolbar>
+    <ion-slides [options]="slideOpts">
+      <ion-slide (click)="showPicker('province',true)">
+        {{province ? province.label : '省份不限'}}
+      </ion-slide>
+      <ion-slide [ngClass]="{'disabled' : !province}" (click)="showPicker('city',!!province)">
+        {{city ? city.label : '城市不限'}}
+      </ion-slide>
+      <ion-slide [ngClass]="{'disabled' : !city}" (click)="showPicker('area',!!city)">
+        {{area ? area.label : '行政区不限'}}
+      </ion-slide>
+      <ion-slide (click)="presentModal()">
+        <div [ngClass]="{'long' : selectedIndustries.length > 0}">
+          <ion-text translate="yes" *ngFor="let industry of selectedIndustries">{{industry.industryName}}</ion-text>
+          <ion-text translate="yes" *ngIf="selectedIndustries.length < 1">行业不限</ion-text>
+        </div>
+        <ion-badge *ngIf="selectedIndustries.length > 0" color="danger">{{selectedIndustries.length}}</ion-badge>
+      </ion-slide>
+    </ion-slides>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+
+  <ion-list>
+    <ion-card class="card-access" *ngFor="let item of data" [routerLink]="['/pages/policy/item',item.id]">
+      <ion-card-header>
+        <ion-card-subtitle>{{item.reportDateBegin | date : 'yyyy.MM'}} - {{item.reportDateEnd | date : 'yyyy.MM'}}</ion-card-subtitle>
+        <ion-card-title>{{item.name}}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p>补贴金额范围：{{item.subsidyAmtBegin}} - {{item.subsidyAmtEnd}}万</p>
+      </ion-card-content>
+      <ion-card-content>
+        <p>申请所需时长：{{item.reportTiming}}个月</p>
+      </ion-card-content>
+      <ion-card-content>
+        <p>适用行业</p>
+        <p>{{item.industryNames}}</p>
+      </ion-card-content>
+    </ion-card>
+  </ion-list>
+
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+    <ion-infinite-scroll-content
+        loadingSpinner="bubbles"
+        loadingText="查看更多...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button [routerLink]="['/pages/company/edit',0]">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>
