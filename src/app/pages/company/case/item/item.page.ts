@@ -34,7 +34,7 @@ export class CompanyCaseItemPage {
   ionViewDidEnter() {
     this.title.setTitle('添加跟进记录');
     this.tabsSvc.set(false);
-    this.caseSvc.get(this.id).subscribe(res => {
+    this.caseSvc.get(this.token.key, this.id).subscribe(res => {
       console.log(res);
     });
   }

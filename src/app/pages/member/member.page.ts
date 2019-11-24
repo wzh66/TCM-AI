@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {Title} from '@angular/platform-browser';
 import {TabsService} from '../../tabs/tabs.service';
@@ -24,6 +24,7 @@ export class MemberPage {
   constructor(private router: Router,
               private storageSvc: StorageService,
               private title: Title,
+              @Inject('FILE_PREFIX_URL') public FILE_PREFIX_URL,
               private tabsSvc: TabsService,
               private authSvc: AuthService,
               private memberSvc: MemberService,
