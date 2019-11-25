@@ -15,6 +15,7 @@ import {FollowService} from '../follow.service';
 export class CompanyFollowListPage {
   token = this.authSvc.token();
   id = this.route.snapshot.params.id;
+  isOwner = this.route.snapshot.queryParams.owner;
   data;
 
   page = 1;
@@ -31,7 +32,7 @@ export class CompanyFollowListPage {
   ionViewDidEnter() {
     this.title.setTitle('跟进记录');
     this.tabsSvc.set(false);
-    this.followSvc.list({key: this.token.key, id: this.id, page: this.page}).subscribe(res => {
+    this.followSvc.list({key: this.isOwner ? this.token.key : '', id: this.id, page: this.page}).subscribe(res => {
       this.data = res.list;
     });
   }

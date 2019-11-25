@@ -35,7 +35,8 @@ export class MemberPage {
   ionViewDidEnter() {
     this.title.setTitle('会员中心');
     this.tabsSvc.set(true);
-    this.followSvc.list(this.params).subscribe(res => {
+    this.followSvc.group(this.params).subscribe(res => {
+      console.log(res);
       this.data = res.list;
     });
   }

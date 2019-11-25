@@ -5,10 +5,10 @@
       <ion-slide (click)="showPicker('province',true)">
         {{province ? province.label : '省份不限'}}
       </ion-slide>
-      <ion-slide [ngClass]="{'disabled' : !province}" (click)="showPicker('city',!!province)">
+      <ion-slide [ngClass]="{'disabled' : province.value === ''}" (click)="showPicker('city',!!province.value)">
         {{city ? city.label : '城市不限'}}
       </ion-slide>
-      <ion-slide [ngClass]="{'disabled' : !city}" (click)="showPicker('area',!!city)">
+      <ion-slide [ngClass]="{'disabled' : city.value === ''}" (click)="showPicker('area',!!city.value)">
         {{area ? area.label : '行政区不限'}}
       </ion-slide>
       <ion-slide (click)="presentModal()">

@@ -4,17 +4,15 @@
     <ion-list-header>
       "{{company.company}}" 相关的行业案例 <ion-text color="danger" style="display: inline">共{{total}}条</ion-text>
     </ion-list-header>
-    <ion-item [routerLink]="['/pages/company/case/item',item.id]" *ngFor="let item of data" detail="">
-      <ion-label>
-        <h2>{{item.caseName}}</h2>
-        <h3>
-          <mat-chip-list>
-            <mat-chip *ngFor="let industry of item.industryNames.split(',');let i = index" [color]="colors[i]" selectable="false" selected>{{industry}}</mat-chip>
-          </mat-chip-list>
-        </h3>
+    <ion-card [routerLink]="['/pages/industry/item',item.id]" *ngFor="let item of data" detail>
+      <ion-card-header>
+        <ion-card-subtitle>{{item.industryNames}}</ion-card-subtitle>
+        <ion-card-title>{{item.caseName}}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
         <p>{{item.summaryContent}}</p>
-      </ion-label>
-    </ion-item>
+      </ion-card-content>
+    </ion-card>
   </ion-list>
 </ion-content>
 <ion-footer>

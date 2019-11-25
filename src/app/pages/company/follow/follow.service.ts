@@ -17,6 +17,13 @@ export class FollowService {
       }));
   }
 
+  group(body): Observable<any> {
+    return this.http.post(this.PREFIX_URL + 'getFollowGroupList', body)
+      .pipe(observableMargeMap((res: any) => {
+        return this.processResult(res);
+      }));
+  }
+
   get(id): Observable<any> {
     return this.http.get(this.PREFIX_URL + 'getAssCust' + '&id=' + id).pipe(observableMargeMap((res: any) => {
       return this.processResult(res);

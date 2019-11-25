@@ -1,24 +1,24 @@
-<ion-content *ngIf="data">
-  <app-empty *ngIf="data?.length < 1"></app-empty>
-  <ion-list *ngIf="data?.length > 0">
+<ion-content>
+  <app-empty *ngIf="data && data.length < 1"></app-empty>
+  <ion-list *ngIf="data && data.length > 0">
     <ion-list-header>
       跟进记录
     </ion-list-header>
     <mat-card class="example-card" *ngFor="let item of data">
-    <mat-card-header>
-      <img mat-card-avatar [src]="FILE_PREFIX_URL + token.faceImg">
-      <mat-card-title>{{item.createByName}}</mat-card-title>
-      <mat-card-subtitle>{{item.followTime | date : 'yyyy-MM-dd HH:mm:ss'}}</mat-card-subtitle>
-    </mat-card-header>
-    <mat-card-content>
-      <p>
-        {{item.content}}
-      </p>
-    </mat-card-content>
+      <mat-card-header>
+        <img mat-card-avatar [src]="FILE_PREFIX_URL + token.faceImg">
+        <mat-card-title>{{item.createByName}}</mat-card-title>
+        <mat-card-subtitle>{{item.followTime | date : 'yyyy-MM-dd HH:mm:ss'}}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p>
+          {{item.content}}
+        </p>
+      </mat-card-content>
       <mat-card-actions>
         <button mat-button>{{item.followLabelName}}</button>
       </mat-card-actions>
-  </mat-card>
+    </mat-card>
     <!--<ion-card class="card-access" *ngFor="let item of data">
       <ion-card-header>
         <ion-avatar slot="start">

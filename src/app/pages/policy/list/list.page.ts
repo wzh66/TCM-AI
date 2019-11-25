@@ -23,9 +23,24 @@ export class PolicyListPage {
 
   data;
 
-  province;
-  city;
-  area;
+  province = {
+    label: '省份不限',
+    name: '',
+    value: '',
+    sub: []
+  };
+  city = {
+    label: '城市不限',
+    name: '',
+    value: '',
+    sub: []
+  };
+  area = {
+    label: '行政区不限',
+    name: '',
+    value: '',
+    sub: []
+  };
   selectedIndustries = [];
   params = {
     key: this.token.key,
@@ -38,7 +53,7 @@ export class PolicyListPage {
     page: 1
   };
 
-  provinces = this.getList(DATA);
+  provinces = this.getList(DATA, '省份不限');
   @ViewChild(IonInfiniteScroll, {static: true}) infiniteScroll: IonInfiniteScroll;
 
   constructor(private title: Title,
@@ -57,11 +72,17 @@ export class PolicyListPage {
     });
   }
 
-  getList(list) {
-    const items = [];
+  getList(list, label) {
+    const items = [{
+      label,
+      name: '',
+      value: '',
+      sub: []
+    }];
     list.forEach(item => {
       items.push({
         label: item.name,
+        name: item.name,
         value: item.code,
         sub: item.sub
       });
@@ -75,15 +96,39 @@ export class PolicyListPage {
     }
     let data = this.provinces;
     if (type === 'city') {
-      data = this.getList(this.province.sub);
+      data = this.getList(this.province.sub, '城市不限');
     }
     if (type === 'area') {
-      data = this.getList(this.city.sub);
+      data = this.getList(this.city.sub, '行政区不限');
     }
     this.pickerSvc.show([data]).subscribe(res => {
-      console.log(res);
       this[type] = res.items[0];
-      this.params[type] = res.items[0].label;
+      if (type === 'province' && !res.items[0].value) {
+        this.city = {
+          label: '城市不限',
+          name: '',
+          value: '',
+          sub: []
+        };
+        this.area = {
+          label: '行政区不限',
+          name: '',
+          value: '',
+          sub: []
+        };
+        this.params.city = '';
+        this.params.area = '';
+      }
+      if (type === 'city' && !res.items[0].value) {
+        this.area = {
+          label: '行政区不限',
+          name: '',
+          value: '',
+          sub: []
+        };
+        this.params.area = '';
+      }
+      this.params[type] = res.items[0].name;
       this.params.page = 1;
       this.infiniteScroll.disabled = false;
       this.getData();
