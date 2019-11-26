@@ -11,7 +11,6 @@ import {AuthService} from '../../pages/auth/auth.service';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
-  private status = false;
 
   presentAlert() {
     this.alert.create({
@@ -38,8 +37,6 @@ export class ErrorInterceptor implements HttpInterceptor {
   private handleResponse(res: any): void {
     if (res.body) {
       if (typeof (res.body.code) !== 'number' && res.body.code !== '0000') {
-        if (!this.status) {
-          this.status = true;
           if (res.body.code) {
             if (res.body.code === '1001') {
               this.authSvc.requestAuth();
@@ -50,7 +47,6 @@ export class ErrorInterceptor implements HttpInterceptor {
               }).subscribe();
             }
           }
-        }
       }
     }
   }
