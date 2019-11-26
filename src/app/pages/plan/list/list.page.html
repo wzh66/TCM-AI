@@ -22,7 +22,7 @@
         <mat-card-subtitle>{{item.createTime | date : 'yyyy-MM-dd HH:mm:ss'}}</mat-card-subtitle>
       </mat-card-header>
       <mat-card-actions align="end">
-        <ion-button size="small" color="light" [href]="FILE_PREFIX_URL + item.fileId">
+        <ion-button [download]="'1.docx'" size="small" color="light" [href]="FILE_PREFIX_URL + item.fileId">
           <ion-icon name="md-download"></ion-icon>
           下载
         </ion-button>

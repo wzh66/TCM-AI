@@ -19,7 +19,7 @@ export class AuthPage {
               private loadingSvc: LoadingService,
               private authSvc: AuthService) {
     this.form = new FormGroup({
-      account: new FormControl('', [Validators.required, Validators.minLength(4), Validators.maxLength(16)]),
+      account: new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(16)]),
       pwd: new FormControl('', [Validators.required])
     });
   }
