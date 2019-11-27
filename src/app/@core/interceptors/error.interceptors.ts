@@ -11,7 +11,6 @@ import {AuthService} from '../../pages/auth/auth.service';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
-  private status = false;
 
   presentAlert() {
     this.alert.create({

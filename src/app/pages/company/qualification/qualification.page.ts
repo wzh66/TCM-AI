@@ -5,7 +5,6 @@ import {Title} from '@angular/platform-browser';
 import {ActivatedRoute, Router} from '@angular/router';
 import {TabsService} from '../../../tabs/tabs.service';
 import {LoadingService} from '../../../@core/data/loading.service';
-/*import {DialogService} from '../../../@core/data/dialog.service';*/
 import {DialogService} from '../../../@core/modules/dialog';
 import {PickerService} from '../../../@core/modules/picker';
 import {AuthService} from '../../auth/auth.service';
