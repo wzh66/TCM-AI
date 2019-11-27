@@ -72,10 +72,16 @@ export class CompanyQualificationPage {
   }
 
   datePicker(target) {
-    const index = getIndex(this.years, 'value', this.formGroup.get(target).value);
-    this.pickerSvc.show([this.years], '', [index]).subscribe(res => {
-      this.formGroup.get(target).setValue(res.value);
-    });
+    if (target === 'uniqueKey') {
+      const index = getIndex(this.years, 'value', this.formGroup.get(target).value);
+      this.pickerSvc.show([this.years], '', [index]).subscribe(res => {
+        this.formGroup.get(target).setValue(res.value);
+      });
+    } else {
+      this.pickerSvc.showDateTime('date').subscribe(res => {
+        console.log(res);
+      });
+    }
   }
 
   ionViewDidEnter() {

@@ -38,17 +38,14 @@ export class ErrorInterceptor implements HttpInterceptor {
   private handleResponse(res: any): void {
     if (res.body) {
       if (typeof (res.body.code) !== 'number' && res.body.code !== '0000') {
-        if (!this.status) {
-          this.status = true;
-          if (res.body.code) {
-            if (res.body.code === '1001') {
-              this.authSvc.requestAuth();
-            } else {
-              this.dialogSvc.show({
-                content: res.body.msg ? res.body.msg : res.body.message,
-                cancel: '我知道了'
-              }).subscribe();
-            }
+        if (res.body.code) {
+          if (res.body.code === '1001') {
+            this.authSvc.requestAuth();
+          } else {
+            this.dialogSvc.show({
+              content: res.body.msg ? res.body.msg : res.body.message,
+              cancel: '我知道了'
+            }).subscribe();
           }
         }
       }
