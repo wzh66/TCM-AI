@@ -46,7 +46,7 @@ export class CompanyListPage {
   selectedIndustries = [];
   params = {
     key: this.token.key,
-    company: '',
+    companyName: '',
     province: '',
     city: '',
     area: '',
@@ -161,7 +161,7 @@ export class CompanyListPage {
 
   change(e) {
     this.params.page = 1;
-    this.params.company = e.detail.value;
+    this.params.companyName = e.detail.value;
     this.infiniteScroll.disabled = false;
     this.getData();
   }

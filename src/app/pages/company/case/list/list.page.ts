@@ -50,6 +50,7 @@ export class CompanyCaseListPage {
     this.tabsSvc.set(false);
     this.companySvc.get(this.token.key, this.id).subscribe(res => {
       this.company = res;
+      console.log(this.company);
       this.params.ids = res.industryIds;
       this.getData();
     });

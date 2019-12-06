@@ -18,10 +18,35 @@
     </ion-card>
     <ion-card>
       <ion-card-header>
-        <ion-card-title>政策具体发布内容</ion-card-title>
+        <ion-card-title>申报条件</ion-card-title>
       </ion-card-header>
       <ion-card-content>
-        <p [innerHTML]="data.remark | html"></p>
+        <div [innerHTML]="data.applyRemark | html"></div>
+      </ion-card-content>
+    </ion-card>
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>申报材料</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <div [innerHTML]="data.dataRemark | html"></div>
+      </ion-card-content>
+    </ion-card>
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>支持内容</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <div [innerHTML]="data.supportRemark | html"></div>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>政策链接</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p *ngFor="let item of data.urls;let i = index">{{i + 1}}、<a [href]="item.url">{{item.urlName}}</a></p>
       </ion-card-content>
     </ion-card>
   </ion-list>

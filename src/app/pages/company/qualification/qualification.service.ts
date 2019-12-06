@@ -16,8 +16,8 @@ export class QualificationService {
       }));
   }
 
-  item(key, type, credId?): Observable<any> {
-    return this.http.get(this.PREFIX_URL + 'getCredById&key=' + key + '&demension=' + type + '&credId=' + (credId ? credId : ''))
+  item(key, type, id, credId?): Observable<any> {
+    return this.http.get(this.PREFIX_URL + 'getCredById&key=' + key + '&demension=' + type + '&custId=' + id + '&credId=' + (credId ? credId : ''))
       .pipe(observableMargeMap((res: any) => {
         return resultProcess(res);
       }));

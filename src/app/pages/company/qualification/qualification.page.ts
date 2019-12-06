@@ -79,6 +79,7 @@ export class CompanyQualificationPage {
     } else {
       this.pickerSvc.showDateTime('date').subscribe(res => {
         console.log(res);
+        this.form.get('' + target).setValue(res.formatValue);
       });
     }
   }
@@ -93,7 +94,7 @@ export class CompanyQualificationPage {
         this.conditions = res[0].conditions;
         this.setupForm(res[0].conditions);
       } else {
-        this.qualificationSvc.item(this.token.key, this.type).subscribe(result => {
+        this.qualificationSvc.item(this.token.key, this.type, this.id).subscribe(result => {
           this.conditions = result.conditions;
           this.setupForm(result.conditions);
         });

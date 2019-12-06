@@ -46,8 +46,8 @@ export class CompanyItemPage {
   }
 
   delete() {
-    this.dialogSvc.show({content: '是否确认删除【' + this.data.company + '】企业信息？', cancel: '取消', confirm: '确认删除'}).subscribe(state => {
-      if (state) {
+    this.dialogSvc.show({content: '是否确认删除【' + this.data.busCust.companyName + '】企业信息？', cancel: '取消', confirm: '确认删除'}).subscribe(state => {
+      if (state.value) {
         this.loadingSvc.show('删除中...', 0).then();
         this.companySvc.delete(this.token.key, this.id).subscribe(res => {
           this.loadingSvc.hide();
