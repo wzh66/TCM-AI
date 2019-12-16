@@ -24,7 +24,7 @@ export class CompanyService {
   }
 
   find(name): Observable<any> {
-    return this.http.get('https://api-v1.wispclouds.com/api/v1/company/getDetailByCompanyName?companyName=' + name);
+    return this.http.get('https://api-v1.wispclouds.com/api/v1/company/getDetailByCompanyName?companyName=' + name + '&origin=' + 'WISP');
   }
 
   research(body): Observable<any> {

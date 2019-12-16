@@ -42,15 +42,15 @@ export class CompanyEditPage implements OnInit {
   form: FormGroup = new FormGroup({
     key: new FormControl(this.token.key, [Validators.required]),
     custId: new FormControl('', [Validators.required]),
-    companyName: new FormControl('', [Validators.required, Validators.pattern(/^[\u4e00-\u9fa5]+$/)]),
-    creditNumber: new FormControl('', [Validators.required, Validators.minLength(10), Validators.maxLength(30)]),
+    companyName: new FormControl('', [Validators.required, Validators.minLength(4), Validators.maxLength(32)]),
+    creditNumber: new FormControl('', [Validators.required, Validators.minLength(18), Validators.maxLength(18)]),
     industryIds: new FormControl('', [Validators.required]),
     name: new FormControl('', [Validators.required, Validators.pattern(/^[\u4e00-\u9fa5]+$/)]),
     mobile: new FormControl('', [Validators.required, Validators.pattern(/[0-9]*/), Validators.maxLength(32)]),
     province: new FormControl('', [Validators.required]),
-    mechanismId: new FormControl('', [Validators.required]),
-    email: new FormControl('', [Validators.required, Validators.email]),
-    licenseFileId: new FormControl('', [Validators.required]),
+    mechanismId: new FormControl('', []),
+    email: new FormControl('', [Validators.email]),
+    licenseFileId: new FormControl('', []),
     area: new FormControl('', [Validators.required]),
     city: new FormControl('', [Validators.required]),
     address: new FormControl('', []),
@@ -59,7 +59,34 @@ export class CompanyEditPage implements OnInit {
 
   submitted = false;
 
-  uploader: Uploader = new Uploader({
+  uploader = {
+    A: new Uploader({
+      url: this.PREFIX_URL + 'uploadFile',
+      auto: true,
+      limit: 1,
+      params: {
+        key: this.token.key, type: 'cust_cert', dir: 'cust_cert'
+      },
+      onUploadSuccess: (file, res) => {
+        console.log(JSON.parse(res).result);
+        this.form.get('licenseFileId').setValue(JSON.parse(res).result);
+      }
+    } as UploaderOptions),
+    B: new Uploader({
+      url: this.PREFIX_URL + 'uploadFile',
+      auto: true,
+      limit: 1,
+      params: {
+        key: this.token.key, type: 'cust_cert', dir: 'cust_cert'
+      },
+      onUploadSuccess: (file, res) => {
+        console.log(JSON.parse(res).result);
+        this.form.get('mechanismId').setValue(JSON.parse(res).result);
+      }
+    } as UploaderOptions)
+  };
+  company;
+  /*uploader: Uploader = new Uploader({
     url: this.PREFIX_URL + 'uploadFile',
     auto: true,
     limit: 1,
@@ -70,15 +97,15 @@ export class CompanyEditPage implements OnInit {
       console.log(JSON.parse(res).result);
       this.form.get('licenseFileId').setValue(JSON.parse(res).result);
     }
-  } as UploaderOptions);
+  } as UploaderOptions);*/
   matcher = new MyErrorStateMatcher();
 
   constructor(private title: Title,
               private route: ActivatedRoute,
               private router: Router,
               private location: LocationStrategy,
-              @Inject('PREFIX_URL') private PREFIX_URL,
-              @Inject('FILE_PREFIX_URL') private FILE_PREFIX_URL,
+              @Inject('PREFIX_URL') public PREFIX_URL,
+              @Inject('FILE_PREFIX_URL') public FILE_PREFIX_URL,
               private tabsSvc: TabsService,
               private modalSvc: ModalService,
               private modalController: ModalController,
@@ -142,6 +169,15 @@ export class CompanyEditPage implements OnInit {
       });
   }
 
+  getNumber() {
+    this.companySvc.find(this.form.get('companyName').value).subscribe(res => {
+      if (res.data) {
+        const company = res.data.companyDTO;
+        this.form.get('creditNumber').setValue(company.unifiedSocialCreditCode);
+      }
+    });
+  }
+
   cityPicker() {
     this.form.get('province').markAsTouched();
     this.pickerSvc.showCity(DATA, '', '', {cancel: '取消', confirm: '确认'}).subscribe(res => {
@@ -194,7 +230,7 @@ export class CompanyEditPage implements OnInit {
     this.companySvc.update(this.form.value).subscribe(res => {
       this.loadingSvc.hide();
       if (res) {
-        this.form.get('custId').setValue(res.id);
+        this.form.get('custId').setValue(res.busCust.id);
         this.submitted = true;
         this.dialogSvc.show({
           content: (this.id === '0' ? '添加' : '修改') + ' "' + this.form.get('companyName').value + '" 成功',

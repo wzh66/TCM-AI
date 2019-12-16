@@ -18,7 +18,11 @@ export class CompanyFollowListPage {
   isOwner = this.route.snapshot.queryParams.owner;
   data;
 
-  page = 1;
+  params = {
+    key: this.isOwner ? this.token.key : '',
+    id: this.id,
+    page: 1
+  };
 
   constructor(private title: Title,
               private route: ActivatedRoute,
@@ -32,7 +36,7 @@ export class CompanyFollowListPage {
   ionViewDidEnter() {
     this.title.setTitle('跟进记录');
     this.tabsSvc.set(false);
-    this.followSvc.list({key: this.isOwner ? this.token.key : '', id: this.id, page: this.page}).subscribe(res => {
+    this.followSvc.list(this.params).subscribe(res => {
       this.data = res.list;
     });
   }
@@ -42,6 +46,19 @@ export class CompanyFollowListPage {
   }
 
   add() {
+  }
+
+  loadData(event) {
+    setTimeout(() => {
+      event.target.complete();
+      this.params.page++;
+      this.followSvc.list(this.params).subscribe(res => {
+        this.data = this.data.concat(res.list);
+        if (this.params.page >= res.totalPages) {
+          event.target.disabled = true;
+        }
+      });
+    }, 500);
   }
 
 }

@@ -32,7 +32,7 @@
     <ng-container *ngFor="let condition of conditions" translate="yes">
       <mat-form-field *ngIf="condition.fieldType === '0001'">
         <input style="display: none" [formControlName]="condition.conditionId" matInput>
-        <mat-slide-toggle [formControlName]="condition.conditionId" matInput>{{condition.conditionName}}</mat-slide-toggle>
+        <mat-slide-toggle [formControlName]="condition.conditionId" matInput>{{condition.conditionName + (!!condition.required ? '*' : '')}}</mat-slide-toggle>
       </mat-form-field>
       <mat-form-field *ngIf="condition.fieldType === '0002'">
         <mat-label>{{condition.conditionName}}</mat-label>

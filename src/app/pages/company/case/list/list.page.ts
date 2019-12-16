@@ -63,4 +63,17 @@ export class CompanyCaseListPage {
   add() {
   }
 
+  loadData(event) {
+    setTimeout(() => {
+      event.target.complete();
+      this.params.page++;
+      this.caseSvc.list(this.params).subscribe(res => {
+        this.data = this.data.concat(res.list);
+        if (this.params.page >= res.totalPages) {
+          event.target.disabled = true;
+        }
+      });
+    }, 500);
+  }
+
 }

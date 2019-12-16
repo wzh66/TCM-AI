@@ -62,7 +62,7 @@ export class CompanyQualificationPage {
     conditions.forEach(condition => {
       if (condition.fieldType === '0001') {
         this.form.setControl(condition.conditionId, new FormControl(!!parseInt(condition.conditionVal, 10),
-          [!!condition.required ? Validators.required : Validators.nullValidator]));
+          []));
       } else {
         this.form.setControl(condition.conditionId, new FormControl(condition.conditionVal,
           [!!condition.required ? Validators.required : Validators.nullValidator]));

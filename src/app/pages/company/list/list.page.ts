@@ -69,6 +69,7 @@ export class CompanyListPage {
   ionViewDidEnter() {
     this.title.setTitle('签单助手');
     this.tabsSvc.set(true);
+    this.params.page = 1;
     this.getData();
   }
 

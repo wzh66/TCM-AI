@@ -41,4 +41,17 @@ export class MemberPage {
     });
   }
 
+  loadData(event) {
+    setTimeout(() => {
+      event.target.complete();
+      this.params.page++;
+      this.followSvc.group(this.params).subscribe(res => {
+        this.data = this.data.concat(res.list);
+        if (this.params.page >= res.totalPages) {
+          event.target.disabled = true;
+        }
+      });
+    }, 500);
+  }
+
 }
