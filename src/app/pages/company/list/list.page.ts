@@ -1,7 +1,6 @@
 import {Component, ViewChild, OnInit} from '@angular/core';
 import {Title} from '@angular/platform-browser';
-import {IonInfiniteScroll} from '@ionic/angular';
-import {ModalController} from '@ionic/angular';
+import {ModalController, IonInfiniteScroll} from '@ionic/angular';
 import {TabsService} from '../../../tabs/tabs.service';
 import {PickerService} from '../../../@core/modules/picker';
 import {AuthService} from '../../auth/auth.service';
@@ -88,7 +87,6 @@ export class CompanyListPage {
         sub: item.sub
       });
     });
-    console.log(items);
     return items;
   }
 
@@ -184,5 +182,9 @@ export class CompanyListPage {
         }
       });
     }, 500);
+  }
+
+  ionViewDidLeave() {
+    this.infiniteScroll.disabled = false;
   }
 }

@@ -1,11 +1,11 @@
-<ion-content *ngIf="data">
+<ion-content>
   <mat-card class="user-info">
     <mat-card-header>
       <mat-card-title>{{token.name}}</mat-card-title>
     </mat-card-header>
   </mat-card>
-  <app-empty *ngIf="data.length < 1"></app-empty>
-  <ion-list *ngIf="data.length > 0">
+  <app-empty *ngIf="data && data?.length < 1"></app-empty>
+  <ion-list *ngIf="data && data?.length > 0">
     <ion-list-header>
       "我" 跟进过的企业
     </ion-list-header>

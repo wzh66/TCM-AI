@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, Inject, OnInit, ViewChild} from '@angular/core';
 import {Router} from '@angular/router';
 import {Title} from '@angular/platform-browser';
 import {TabsService} from '../../tabs/tabs.service';
@@ -7,6 +7,7 @@ import {AuthService} from '../auth/auth.service';
 import {MemberService} from './member.service';
 import {FollowService} from '../company/follow/follow.service';
 import {DialogService} from '../../@core/modules/dialog';
+import {IonInfiniteScroll} from '@ionic/angular';
 
 @Component({
   selector: 'app-member',
@@ -20,7 +21,7 @@ export class MemberPage {
     page: 1
   };
   data;
-
+  @ViewChild(IonInfiniteScroll, {static: true}) infiniteScroll: IonInfiniteScroll;
   constructor(private router: Router,
               private storageSvc: StorageService,
               private title: Title,
@@ -35,6 +36,7 @@ export class MemberPage {
   ionViewDidEnter() {
     this.title.setTitle('会员中心');
     this.tabsSvc.set(true);
+    this.params.page = 1;
     this.followSvc.group(this.params).subscribe(res => {
       console.log(res);
       this.data = res.list;
@@ -53,5 +55,7 @@ export class MemberPage {
       });
     }, 500);
   }
-
+  ionViewDidLeave() {
+    this.infiniteScroll.disabled = false;
+  }
 }

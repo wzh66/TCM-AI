@@ -1,8 +1,8 @@
-import {Component, Inject} from '@angular/core';
+import {Component, Inject, ViewChild} from '@angular/core';
 import {Title} from '@angular/platform-browser';
 import {ActivatedRoute} from '@angular/router';
 import {LocationStrategy} from '@angular/common';
-import {ModalController} from '@ionic/angular';
+import {IonInfiniteScroll, ModalController} from '@ionic/angular';
 import {TabsService} from '../../../tabs/tabs.service';
 import {AuthService} from '../../auth/auth.service';
 import {CompanyService} from '../../company/company.service';
@@ -27,7 +27,7 @@ export class IndustryListPage {
   selectedIndustries = [];
   colors = ['basic', 'primary', 'accent', 'warn', 'link'];
   listHeader = '行业案例';
-
+  @ViewChild(IonInfiniteScroll, {static: true}) infiniteScroll: IonInfiniteScroll;
   constructor(private title: Title,
               private route: ActivatedRoute,
               private location: LocationStrategy,
@@ -47,6 +47,7 @@ export class IndustryListPage {
   }
 
   ionViewDidEnter() {
+    this.params.page = 1;
     this.title.setTitle('查看行业案例');
     this.tabsSvc.set(true);
     this.getData();
@@ -84,4 +85,19 @@ export class IndustryListPage {
     this.getData();
   }
 
+  loadData(event) {
+    setTimeout(() => {
+      event.target.complete();
+      this.params.page++;
+      this.caseSvc.list(this.params).subscribe(res => {
+        this.data = this.data.concat(res.list);
+        if (this.params.page >= res.totalPages) {
+          event.target.disabled = true;
+        }
+      });
+    }, 500);
+  }
+  ionViewDidLeave() {
+    this.infiniteScroll.disabled = false;
+  }
 }
