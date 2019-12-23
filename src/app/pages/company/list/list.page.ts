@@ -67,7 +67,7 @@ export class CompanyListPage {
   }
 
   ionViewDidEnter() {
-    this.title.setTitle('签单助手');
+    this.title.setTitle('华海云秘');
     this.tabsSvc.set(true);
     this.getData();
   }

@@ -86,6 +86,7 @@ export class CompanyQualificationPage {
                 this.formGroup.get('id').setValue(res[0].credId);
                 this.formGroup.get('uniqueKey').setValue(res[0].uniqueKey);
                 this.conditions = res[0].conditions;
+                console.log(this.conditions);
                 this.setupForm(res[0].conditions);
             } else {
                 this.qualificationSvc.item(this.token.key, this.type).subscribe(result => {

@@ -33,7 +33,7 @@ export class MemberPage {
   }
 
   ionViewDidEnter() {
-    this.title.setTitle('会员中心');
+    this.title.setTitle('个人中心');
     this.tabsSvc.set(true);
     this.followSvc.group(this.params).subscribe(res => {
       console.log(res);
