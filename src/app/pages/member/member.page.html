@@ -1,18 +1,18 @@
-<ion-content *ngIf="data">
+<ion-content>
   <mat-card class="user-info">
     <mat-card-header>
       <mat-card-title>{{token.name}}</mat-card-title>
     </mat-card-header>
   </mat-card>
-  <app-empty *ngIf="data.length < 1"></app-empty>
-  <ion-list *ngIf="data.length > 0">
+  <app-empty *ngIf="data && data?.length < 1"></app-empty>
+  <ion-list *ngIf="data && data?.length > 0">
     <ion-list-header>
       "我" 跟进过的企业
     </ion-list-header>
-    <mat-card class="example-card" *ngFor="let item of data" [routerLink]="['/pages/company/follow/list',item.assCustId]" [queryParams]="{owner:true}">
+    <mat-card class="example-card" *ngFor="let item of data" [routerLink]="['/pages/company/follow/list',item.custId]" [queryParams]="{owner:true}">
       <mat-card-header>
-        <img mat-card-avatar [src]="FILE_PREFIX_URL + token.faceImg">
-        <mat-card-title>{{item.company}}</mat-card-title>
+        <!--<img mat-card-avatar [src]="FILE_PREFIX_URL + token.faceImg">-->
+        <mat-card-title>{{item.companyName}}</mat-card-title>
         <mat-card-subtitle>{{item.province}} {{item.city}} {{item.area}}</mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
@@ -29,4 +29,10 @@
       </mat-card-actions>
     </mat-card>
   </ion-list>
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+    <ion-infinite-scroll-content
+        loadingSpinner="bubbles"
+        loadingText="查看更多...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>

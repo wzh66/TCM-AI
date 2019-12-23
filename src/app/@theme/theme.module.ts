@@ -31,6 +31,8 @@ const MATERIAL_PART = [
   MatCardModule
 ];
 
+import {UploaderModule} from './modules/uploader';
+
 import {COMPONENTS, ENTRY_COMPONENTS, PIPES} from './index';
 
 @NgModule({
@@ -41,7 +43,8 @@ import {COMPONENTS, ENTRY_COMPONENTS, PIPES} from './index';
     ReactiveFormsModule,
     RouterModule,
     MATERIAL_PART,
-    IonicModule
+    IonicModule,
+    UploaderModule
   ],
   exports: [
     CommonModule,
@@ -50,6 +53,7 @@ import {COMPONENTS, ENTRY_COMPONENTS, PIPES} from './index';
     ReactiveFormsModule,
     RouterModule,
     MATERIAL_PART,
+    UploaderModule,
     ...COMPONENTS,
     ...PIPES
   ],

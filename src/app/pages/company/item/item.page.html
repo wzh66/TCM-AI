@@ -3,27 +3,30 @@
     <ion-list>
       <ion-item lines="full">
         <ion-label>企业名称</ion-label>
-        <ion-note>{{data.company}}</ion-note>
+        <ion-note>{{data.busCust.companyName}}</ion-note>
       </ion-item>
       <ion-item lines="full">
         <ion-label>所属区域</ion-label>
-        <ion-note>{{data.province + data.city + data.area}}</ion-note>
+        <ion-note>{{data.busCust.province + data.busCust.city + data.busCust.area}}</ion-note>
       </ion-item>
       <ion-item lines="full">
-        <ion-label>所属行业</ion-label>
-        <ion-note>{{data.industryNames}}</ion-note>
+        <ion-label>
+          <h3>所属行业</h3>
+          <p>{{data.busCust.industryNames}}</p>
+        </ion-label>
+        <p></p>
       </ion-item>
       <ion-item lines="full">
         <ion-label>联系人</ion-label>
-        <ion-note>{{data.name}}</ion-note>
+        <ion-note>{{data.busCust.name}}</ion-note>
       </ion-item>
       <ion-item (click)="onCall(data.mobile)" lines="full" detail>
         <ion-label>联系电话</ion-label>
-        <ion-note>{{data.mobile}}</ion-note>
+        <ion-note>{{data.busCust.mobile}}</ion-note>
       </ion-item>
       <ion-item lines="none">
         <ion-label>备注</ion-label>
-        <ion-note>{{data.remark}}</ion-note>
+        <ion-note>{{data.busCust.remark}}</ion-note>
       </ion-item>
     </ion-list>
   </ion-card>

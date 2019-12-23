@@ -6,9 +6,9 @@
     </ion-list-header>
 
     <ion-item *ngFor="let item of data">
-      <ion-avatar slot="start">
+      <!--<ion-avatar slot="start">
         <img [src]="FILE_PREFIX_URL + token.faceImg">
-      </ion-avatar>
+      </ion-avatar>-->
       <ion-label>
         <h2>{{item.createByName}}</h2>
         <h3>{{item.createTime | date : 'yyyy-MM-dd HH:mm:ss'}}</h3>

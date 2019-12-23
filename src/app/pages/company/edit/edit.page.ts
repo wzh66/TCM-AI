@@ -1,6 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {Title} from '@angular/platform-browser';
-import {FormGroup, FormControl, Validators, ValidationErrors} from '@angular/forms';
+import {FormGroup, FormControl, Validators, ValidationErrors, FormGroupDirective, NgForm} from '@angular/forms';
 import {Router, ActivatedRoute} from '@angular/router';
 import {LocationStrategy} from '@angular/common';
 import {TabsService} from '../../../tabs/tabs.service';
@@ -13,11 +13,21 @@ import {AuthService} from '../../auth/auth.service';
 import {DictService} from '../../../@core/data/dict.service';
 import {CompanyService} from '../company.service';
 import {debounceTime, filter, map, distinctUntilChanged, switchMap} from 'rxjs/operators';
+import {ErrorStateMatcher} from '@angular/material';
 import {IndustryComponent} from '../../../@theme/components/industry/industry';
 import {IndustryService} from '../../../@theme/components/industry/industry.service';
 import {ModalController} from '@ionic/angular';
 import {DATA} from '../../../@core/data/cn';
 import {getIndex} from '../../../utils/utils';
+
+import {Uploader, UploaderOptions} from '../../../@theme/modules/uploader';
+
+export class MyErrorStateMatcher implements ErrorStateMatcher {
+  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+    const isSubmitted = form && form.submitted;
+    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
+  }
+}
 
 @Component({
   selector: 'app-company-edit',
@@ -31,12 +41,16 @@ export class CompanyEditPage implements OnInit {
   token = this.authSvc.token();
   form: FormGroup = new FormGroup({
     key: new FormControl(this.token.key, [Validators.required]),
-    id: new FormControl('', [Validators.required]),
-    company: new FormControl('', [Validators.required, Validators.pattern(/^[\u4e00-\u9fa5]+$/)]),
+    custId: new FormControl('', [Validators.required]),
+    companyName: new FormControl('', [Validators.required, Validators.minLength(4), Validators.maxLength(32)]),
+    creditNumber: new FormControl('', [Validators.required, Validators.minLength(18), Validators.maxLength(18)]),
     industryIds: new FormControl('', [Validators.required]),
     name: new FormControl('', [Validators.required, Validators.pattern(/^[\u4e00-\u9fa5]+$/)]),
     mobile: new FormControl('', [Validators.required, Validators.pattern(/[0-9]*/), Validators.maxLength(32)]),
     province: new FormControl('', [Validators.required]),
+    mechanismId: new FormControl('', []),
+    email: new FormControl('', [Validators.email]),
+    licenseFileId: new FormControl('', []),
     area: new FormControl('', [Validators.required]),
     city: new FormControl('', [Validators.required]),
     address: new FormControl('', []),
@@ -45,10 +59,53 @@ export class CompanyEditPage implements OnInit {
 
   submitted = false;
 
+  uploader = {
+    A: new Uploader({
+      url: this.PREFIX_URL + 'uploadFile',
+      auto: true,
+      limit: 1,
+      params: {
+        key: this.token.key, type: 'cust_cert', dir: 'cust_cert'
+      },
+      onUploadSuccess: (file, res) => {
+        console.log(JSON.parse(res).result);
+        this.form.get('licenseFileId').setValue(JSON.parse(res).result);
+      }
+    } as UploaderOptions),
+    B: new Uploader({
+      url: this.PREFIX_URL + 'uploadFile',
+      auto: true,
+      limit: 1,
+      params: {
+        key: this.token.key, type: 'cust_cert', dir: 'cust_cert'
+      },
+      onUploadSuccess: (file, res) => {
+        console.log(JSON.parse(res).result);
+        this.form.get('mechanismId').setValue(JSON.parse(res).result);
+      }
+    } as UploaderOptions)
+  };
+  company;
+  /*uploader: Uploader = new Uploader({
+    url: this.PREFIX_URL + 'uploadFile',
+    auto: true,
+    limit: 1,
+    params: {
+      key: this.token.key, type: 'user', dir: 'user'
+    },
+    onUploadSuccess: (file, res) => {
+      console.log(JSON.parse(res).result);
+      this.form.get('licenseFileId').setValue(JSON.parse(res).result);
+    }
+  } as UploaderOptions);*/
+  matcher = new MyErrorStateMatcher();
+
   constructor(private title: Title,
               private route: ActivatedRoute,
               private router: Router,
               private location: LocationStrategy,
+              @Inject('PREFIX_URL') public PREFIX_URL,
+              @Inject('FILE_PREFIX_URL') public FILE_PREFIX_URL,
               private tabsSvc: TabsService,
               private modalSvc: ModalService,
               private modalController: ModalController,
@@ -64,14 +121,14 @@ export class CompanyEditPage implements OnInit {
   }
 
   ngOnInit() {
-    this.form.get('company').valueChanges.pipe(
+    this.form.get('companyName').valueChanges.pipe(
       filter(text => text.length > 1),
       debounceTime(1000),
-      distinctUntilChanged()).subscribe(company => {
-      this.companySvc.validatorName(this.token.key, company).subscribe(res => {
+      distinctUntilChanged()).subscribe(companyName => {
+      this.companySvc.validatorName(this.token.key, companyName).subscribe(res => {
         if (res && res.id !== this.id) {
           // this.sameCompany = res;
-          this.form.get('company').setErrors(null);
+          this.form.get('companyName').setErrors(null);
         } else {
           // this.sameCompany = false;
         }
@@ -81,16 +138,20 @@ export class CompanyEditPage implements OnInit {
       .pipe(map(res => this.industries = res))
       .subscribe(industries => {
         if (this.id !== '0') {
-          this.form.get('id').enable();
+          this.form.get('custId').enable();
           this.companySvc.get(this.token.key, this.id).subscribe(res => {
             if (res) {
               for (const key in this.form.value) {
-                if (res[key]) {
-                  this.form.get(key).setValue(res[key]);
+                if (res.busCust[key] || key === 'custId') {
+                  if (key === 'custId') {
+                    this.form.get(key).setValue(res.busCust.id);
+                  } else {
+                    this.form.get(key).setValue(res.busCust[key]);
+                  }
                   if (key === 'industryIds') {
                     const selectedIndustries = [];
                     console.log(this.industries);
-                    res[key].split(',').forEach(id => {
+                    res.busCust[key].split(',').forEach(id => {
                       const index = getIndex(this.industries, 'id', parseInt(id, 10));
                       selectedIndustries.push(this.industries[index]);
                     });
@@ -99,12 +160,22 @@ export class CompanyEditPage implements OnInit {
                   }
                 }
               }
+              console.log(this.form);
             }
           });
         } else {
-          this.form.get('id').disable();
+          this.form.get('custId').disable();
         }
       });
+  }
+
+  getNumber() {
+    this.companySvc.find(this.form.get('companyName').value).subscribe(res => {
+      if (res.data) {
+        const company = res.data.companyDTO;
+        this.form.get('creditNumber').setValue(company.unifiedSocialCreditCode);
+      }
+    });
   }
 
   cityPicker() {
@@ -147,7 +218,8 @@ export class CompanyEditPage implements OnInit {
 
   submit() {
     if (this.submitted) {
-      this.router.navigate(['/pages/company/qualification', this.form.get('id').value],
+      console.log('submit');
+      this.router.navigate(['/pages/company/qualification', this.form.get('custId').value],
         {queryParams: {type: 0}});
       return false;
     }
@@ -155,12 +227,16 @@ export class CompanyEditPage implements OnInit {
       return false;
     }
     this.loadingSvc.show('提交中...', 0).then();
-    this.companySvc.research(this.form.value).subscribe(res => {
+    this.companySvc.update(this.form.value).subscribe(res => {
       this.loadingSvc.hide();
       if (res) {
-        this.form.get('id').setValue(res.id);
+        this.form.get('custId').setValue(res.busCust.id);
         this.submitted = true;
-        this.dialogSvc.show({content: this.id === '0' ? '添加' : '修改' + ' "' + this.form.get('company').value + '" 成功', cancel: '', confirm: '我知道了'}).subscribe(() => {
+        this.dialogSvc.show({
+          content: (this.id === '0' ? '添加' : '修改') + ' "' + this.form.get('companyName').value + '" 成功',
+          cancel: '',
+          confirm: '我知道了'
+        }).subscribe(() => {
           if (this.id !== '0') {
             this.location.back();
           }

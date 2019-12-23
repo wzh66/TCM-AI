@@ -24,6 +24,10 @@ export class AuthPage {
     });
   }
 
+  ionViewDidEnter() {
+    this.storageSvc.clear();
+  }
+
   login() {
     if (this.form.invalid) {
       return false;

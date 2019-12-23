@@ -50,6 +50,7 @@ export class CompanyCaseListPage {
     this.tabsSvc.set(false);
     this.companySvc.get(this.token.key, this.id).subscribe(res => {
       this.company = res;
+      console.log(this.company);
       this.params.ids = res.industryIds;
       this.getData();
     });
@@ -60,6 +61,19 @@ export class CompanyCaseListPage {
   }
 
   add() {
+  }
+
+  loadData(event) {
+    setTimeout(() => {
+      event.target.complete();
+      this.params.page++;
+      this.caseSvc.list(this.params).subscribe(res => {
+        this.data = this.data.concat(res.list);
+        if (this.params.page >= res.totalPages) {
+          event.target.disabled = true;
+        }
+      });
+    }, 500);
   }
 
 }

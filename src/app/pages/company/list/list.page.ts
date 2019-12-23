@@ -1,7 +1,6 @@
 import {Component, ViewChild, OnInit} from '@angular/core';
 import {Title} from '@angular/platform-browser';
-import {IonInfiniteScroll} from '@ionic/angular';
-import {ModalController} from '@ionic/angular';
+import {ModalController, IonInfiniteScroll} from '@ionic/angular';
 import {TabsService} from '../../../tabs/tabs.service';
 import {PickerService} from '../../../@core/modules/picker';
 import {AuthService} from '../../auth/auth.service';
@@ -46,7 +45,7 @@ export class CompanyListPage {
   selectedIndustries = [];
   params = {
     key: this.token.key,
-    company: '',
+    companyName: '',
     province: '',
     city: '',
     area: '',
@@ -69,6 +68,7 @@ export class CompanyListPage {
   ionViewDidEnter() {
     this.title.setTitle('华海云秘');
     this.tabsSvc.set(true);
+    this.params.page = 1;
     this.getData();
   }
 
@@ -87,7 +87,6 @@ export class CompanyListPage {
         sub: item.sub
       });
     });
-    console.log(items);
     return items;
   }
 
@@ -161,7 +160,7 @@ export class CompanyListPage {
 
   change(e) {
     this.params.page = 1;
-    this.params.company = e.detail.value;
+    this.params.companyName = e.detail.value;
     this.infiniteScroll.disabled = false;
     this.getData();
   }
@@ -183,5 +182,9 @@ export class CompanyListPage {
         }
       });
     }, 500);
+  }
+
+  ionViewDidLeave() {
+    this.infiniteScroll.disabled = false;
   }
 }

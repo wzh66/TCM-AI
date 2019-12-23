@@ -2,7 +2,7 @@
   <app-empty *ngIf="data && data?.length < 1"></app-empty>
   <ion-list *ngIf="data && data?.length > 0">
     <ion-list-header>
-      "{{company.company}}" 相关的行业案例 <ion-text color="danger" style="display: inline">共{{total}}条</ion-text>
+      "{{company.busCust.companyName}}" 相关的行业案例 <ion-text color="danger" style="display: inline">共{{total}}条</ion-text>
     </ion-list-header>
     <ion-card [routerLink]="['/pages/industry/item',item.id]" *ngFor="let item of data" detail>
       <ion-card-header>
@@ -14,6 +14,12 @@
       </ion-card-content>
     </ion-card>
   </ion-list>
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+    <ion-infinite-scroll-content
+        loadingSpinner="bubbles"
+        loadingText="查看更多...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>
 <ion-footer>
   <ion-toolbar>

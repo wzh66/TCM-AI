@@ -57,8 +57,8 @@ export class CompanyAnalysisPage {
     route.paramMap.pipe(map(params => this.id = params.get('id'))).subscribe(id => {
       this.companySvc.get(this.token.key, this.id).subscribe(res => {
         this.data = res;
-        this.company = this.data.company;
-        this.companySvc.find(encodeURIComponent('腾讯科技(深圳)有限公司')).subscribe(result => {
+        this.company = this.data.busCust.companyName;
+        this.companySvc.find(encodeURIComponent(this.company)).subscribe(result => {
           if (result.code === 20000) {
             const brandList = result.data.intellectualPropertyCountDTO.brandCountResult;
             const patentList = result.data.intellectualPropertyCountDTO.patentCountResult;

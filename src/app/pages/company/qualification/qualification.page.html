@@ -32,7 +32,7 @@
     <ng-container *ngFor="let condition of conditions" translate="yes">
       <mat-form-field *ngIf="condition.fieldType === '0001'">
         <input style="display: none" [formControlName]="condition.conditionId" matInput>
-        <mat-slide-toggle [formControlName]="condition.conditionId" matInput>{{condition.conditionName}}</mat-slide-toggle>
+        <mat-slide-toggle [formControlName]="condition.conditionId" matInput>{{condition.conditionName + (!!condition.required ? '*' : '')}}</mat-slide-toggle>
       </mat-form-field>
       <mat-form-field *ngIf="condition.fieldType === '0002'">
         <mat-label>{{condition.conditionName}}</mat-label>
@@ -50,7 +50,7 @@
       <mat-form-field *ngIf="condition.fieldType === '0003'">
         <mat-label>{{condition.conditionName}}</mat-label>
         <input (click)="datePicker(condition.conditionId)" [formControlName]="condition.conditionId" matInput
-               placeholder="请选择时间" [required]="!!condition.required" readonly>
+               placeholder="请选择时间" [required]="!!condition.required">
         <button (click)="datePicker(condition.conditionId)" mat-button matSuffix mat-icon-button>
           <ion-icon name="md-calendar"></ion-icon>
         </button>
