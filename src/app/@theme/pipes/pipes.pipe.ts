@@ -167,9 +167,6 @@ export class DetailPipe implements PipeTransform {
 @Injectable()
 export class LabelPipe implements PipeTransform {
   transform(value, data): any {
-    if (!value) {
-      return value;
-    }
     const index = getIndex(data, 'value', value);
     return data[index].label;
   }

@@ -66,9 +66,11 @@ export class CompanyListPage {
   }
 
   ionViewDidEnter() {
+    this.token = this.authSvc.token();
     this.title.setTitle('华海云秘');
     this.tabsSvc.set(true);
     this.params.page = 1;
+    this.params.key = this.token.key;
     this.getData();
   }
 

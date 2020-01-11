@@ -1,15 +1,34 @@
-<ion-content>
+<ion-header>
   <mat-card class="user-info">
     <mat-card-header>
       <mat-card-title>{{token.name}}</mat-card-title>
     </mat-card-header>
   </mat-card>
+  <ion-toolbar *ngIf="labels">
+    <ion-segment (ionChange)="segmentChanged($event)">
+      <ion-segment-button value="time">
+        <sat-datepicker-toggle [for]="time"></sat-datepicker-toggle>
+        <form [formGroup]="form">
+          <input matInput placeholder="选择时间" formControlName="date" (dateChange)="timeChange($event)" [satDatepicker]="time" readonly>
+        </form>
+        <sat-datepicker #time [rangeMode]="true"></sat-datepicker>
+      </ion-segment-button>
+      <ion-segment-button value="status">
+        <ion-icon (click)="showPicker()" name="swap"></ion-icon>
+        <ion-label>{{params.followLabel ? (params.followLabel | label : labels) : '选择状态'}}</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="member">
+        <ion-icon (click)="presentModal()" name="person"></ion-icon>
+        <ion-label>{{params.createByName ? params.createByName : '选择跟进人'}}</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
   <app-empty *ngIf="data && data?.length < 1"></app-empty>
   <ion-list *ngIf="data && data?.length > 0">
-    <ion-list-header>
-      "我" 跟进过的企业
-    </ion-list-header>
-    <mat-card class="example-card" *ngFor="let item of data" [routerLink]="['/pages/company/follow/list',item.custId]" [queryParams]="{owner:true}">
+    <mat-card class="example-card" *ngFor="let item of data" [routerLink]="['/pages/company/follow/list',item.custId]"
+              [queryParams]="{owner:true}">
       <mat-card-header>
         <!--<img mat-card-avatar [src]="FILE_PREFIX_URL + token.faceImg">-->
         <mat-card-title>{{item.companyName}}</mat-card-title>

@@ -1,1 +1,1 @@
-console.log((new Date()).getFullYear());
+console.log((new Date()));

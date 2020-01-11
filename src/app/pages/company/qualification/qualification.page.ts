@@ -72,9 +72,17 @@ export class CompanyQualificationPage {
   }
 
   datePicker(target) {
+    console.log(target);
     const index = getIndex(this.years, 'value', this.formGroup.get(target).value);
     this.pickerSvc.show([this.years], '', [index]).subscribe(res => {
       this.formGroup.get(target).setValue(res.value);
+    });
+  }
+
+  dateTimePicker(target) {
+    this.pickerSvc.showDateTime('date', 'yyyy-MM-dd', this.form.get(target).value).subscribe(res => {
+      console.log(res);
+      this.form.get(target).setValue(res.formatValue);
     });
   }
 
