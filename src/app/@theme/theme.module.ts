@@ -32,7 +32,7 @@ const MATERIAL_PART = [
 ];
 
 import {UploaderModule} from './modules/uploader';
-import { SatDatepickerModule, SatNativeDateModule } from 'saturn-datepicker';
+import {SatDatepickerModule, SatNativeDateModule} from 'saturn-datepicker';
 
 import {COMPONENTS, ENTRY_COMPONENTS, PIPES} from './index';
 

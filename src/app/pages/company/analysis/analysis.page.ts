@@ -2,8 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {LocationStrategy} from '@angular/common';
 import {Title} from '@angular/platform-browser';
-import {LoadingService} from '../../../@core/data/loading.service';
-/*import {DialogService} from '../../../@core/data/dialog.service';*/
 import {DialogService} from '../../../@core/modules/dialog';
 import {TabsService} from '../../../tabs/tabs.service';
 import {AuthService} from '../../auth/auth.service';
@@ -49,7 +47,6 @@ export class CompanyAnalysisPage {
               private router: Router,
               private location: LocationStrategy,
               private titleSvc: Title,
-              private loadingSvc: LoadingService,
               private dialogSvc: DialogService,
               private tabsSvc: TabsService,
               private authSvc: AuthService,

@@ -6,19 +6,19 @@
   </mat-card>
   <ion-toolbar *ngIf="labels">
     <ion-segment (ionChange)="segmentChanged($event)">
-      <ion-segment-button value="time">
+      <ion-segment-button (click)="time.open()" value="time">
         <sat-datepicker-toggle [for]="time"></sat-datepicker-toggle>
         <form [formGroup]="form">
           <input matInput placeholder="选择时间" formControlName="date" (dateChange)="timeChange($event)" [satDatepicker]="time" readonly>
         </form>
         <sat-datepicker #time [rangeMode]="true"></sat-datepicker>
       </ion-segment-button>
-      <ion-segment-button value="status">
-        <ion-icon (click)="showPicker()" name="swap"></ion-icon>
+      <ion-segment-button (click)="showPicker()" value="status">
+        <ion-icon name="swap"></ion-icon>
         <ion-label>{{params.followLabel ? (params.followLabel | label : labels) : '选择状态'}}</ion-label>
       </ion-segment-button>
-      <ion-segment-button value="member">
-        <ion-icon (click)="presentModal()" name="person"></ion-icon>
+      <ion-segment-button (click)="presentModal()" value="member">
+        <ion-icon name="person"></ion-icon>
         <ion-label>{{params.createByName ? params.createByName : '选择跟进人'}}</ion-label>
       </ion-segment-button>
     </ion-segment>

@@ -4,8 +4,9 @@ import {Router, ActivatedRoute} from '@angular/router';
 
 import {UaService} from '../../@core/data/ua.service';
 import {StorageService} from '../../@core/utils/storage.service';
-import {LoadingService} from '../../@core/data/loading.service';
+import {ToastService} from '../../@core/modules/toast';
 import {AuthService} from './auth.service';
+import {MemberService} from '../member/member.service';
 
 @Component({
   selector: 'app-auth',
@@ -26,7 +27,8 @@ export class AuthPage {
               private route: ActivatedRoute,
               private uaSvc: UaService,
               private storageSvc: StorageService,
-              private loadingSvc: LoadingService,
+              private toastSvc: ToastService,
+              private memberSvc: MemberService,
               private authSvc: AuthService) {
     this.form = new FormGroup({
       account: new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(16)]),
@@ -37,16 +39,20 @@ export class AuthPage {
 
   ionViewDidEnter() {
     this.storageSvc.clear();
-    /* if (this.uaSvc.isWx()) {
+    if (this.uaSvc.isWx()) {
       if (this.token.openid) {
         if (this.token.key) {
-          this.authSvc.updateLoginStatus(this.token);
-          this.router.navigate(['/pages/company/list']);
+          this.memberSvc.get(this.token.key).subscribe(res => {
+            this.token.faceImg = res.faceImg;
+            this.token.name = res.name;
+            this.authSvc.updateLoginStatus(this.token);
+            this.router.navigate(['/pages/company/list']);
+          });
         }
       } else {
-        window.location.href = 'http://jmwr2f.natappfree.cc/wisp/intf/auth?callbackUrl=' + window.location.href;
+        window.location.href = 'https://admin.wispclouds.com/wisp/intf/auth?callbackUrl=' + window.location.href;
       }
-    } */
+    }
   }
 
   login() {
@@ -54,9 +60,9 @@ export class AuthPage {
       return false;
     }
 
-    this.loadingSvc.show('登录中', 0).then();
+    this.toastSvc.loading('登录中', 0);
     this.authSvc.login(this.form.value).subscribe(res => {
-      this.loadingSvc.hide();
+      this.toastSvc.hide();
       // 设置用户Token信息
       if (res.code === '0000') {
         this.authSvc.updateLoginStatus(res.result);
