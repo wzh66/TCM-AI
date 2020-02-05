@@ -1,0 +1,48 @@
+<ion-content>
+    <div class="banner">
+        <img src="/assets/nCoV/banner.jpg">
+    </div>
+    <div class="tabs">
+        <ion-grid>
+            <ion-row>
+                <ion-col class="curr" size="6">政策地图</ion-col>
+                <ion-col size="6">最新政策</ion-col>
+            </ion-row>
+        </ion-grid>
+    </div>
+    <p class="time">截至 2020-02-05 20:20:20</p>
+    <div class="statistics">
+        <ion-grid>
+            <ion-row>
+                <ion-col>
+                    <div class="count">2365</div>
+                    <div class="label">政策数量</div>
+                </ion-col>
+                <ion-col>
+                    <div class="count">20</div>
+                    <div class="label">覆盖地区</div>
+                </ion-col>
+                <ion-col>
+                    <div class="count">52365</div>
+                    <div class="label">咨询企业</div>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </div>
+</ion-content>
+<ion-footer>
+    <ion-toolbar>
+        <ion-grid class="ion-no-padding">
+            <ion-row>
+                <ion-col class="ion-no-padding" size="4">
+                    <ion-button shape="round" router-direction="back" (click)="back()" color="medium" expand="full">
+                        <ion-icon name="share-alt"></ion-icon>
+                        分享</ion-button>
+                </ion-col>
+                <ion-col class="ion-no-padding" size="8">
+                    <ion-button shape="round" [routerLink]="['/pages/company/follow/item',id]" color="primary" expand="full">订阅所在城市政策汇编</ion-button>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </ion-toolbar>
+</ion-footer>

@@ -74,6 +74,16 @@ const routes: Routes = [
         ]
       },
       {
+        path: 'nCoV',
+        children: [
+          {
+            path: '',
+            loadChildren: () =>
+              import('../pages/nCoV/ncov.module').then(m => m.NCoVPageModule)
+          }
+        ]
+      },
+      {
         path: '',
         redirectTo: '/pages/company/list',
         pathMatch: 'full'
