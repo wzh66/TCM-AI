@@ -5,8 +5,7 @@ import {LocationStrategy} from '@angular/common';
 import {FormGroup, FormControl, Validators} from '@angular/forms';
 
 import {PickerService} from '../../../../@core/modules/picker';
-import {LoadingService} from '../../../../@core/data/loading.service';
-/*import {DialogService} from '../../../../@core/data/dialog.service';*/
+import {ToastService} from '../../../../@core/modules/toast';
 import {DialogService} from '../../../../@core/modules/dialog';
 import {TabsService} from '../../../../tabs/tabs.service';
 import {DictService} from '../../../../@core/data/dict.service';
@@ -28,7 +27,7 @@ export class CompanyFollowItemPage {
   constructor(private title: Title,
               private route: ActivatedRoute,
               private location: LocationStrategy,
-              private loadingSvc: LoadingService,
+              private toastSvc: ToastService,
               private dialogSvc: DialogService,
               private pickerSvc: PickerService,
               private tabsSvc: TabsService,
@@ -78,9 +77,9 @@ export class CompanyFollowItemPage {
     if (this.form.invalid) {
       return false;
     }
-    this.loadingSvc.show('提交中...', 0).then();
+    this.toastSvc.show('提交中...', 0);
     this.followSvc.add(this.form.value).subscribe(res => {
-      this.loadingSvc.hide();
+      this.toastSvc.hide();
       if (res) {
         this.dialogSvc.show({content: '您已成功提交！', cancel: '取消', confirm: '我知道了'}).subscribe(state => {
           if (state) {

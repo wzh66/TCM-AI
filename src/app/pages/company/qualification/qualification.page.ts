@@ -88,7 +88,7 @@ export class CompanyQualificationPage {
                 this.conditions = res[0].conditions;
                 this.setupForm(res[0].conditions);
             } else {
-                this.qualificationSvc.item(this.token.key, this.id, this.type).subscribe(result => {
+                this.qualificationSvc.item(this.token.key, this.type).subscribe(result => {
                     this.conditions = result.conditions;
                     this.setupForm(result.conditions);
                 });

@@ -9,6 +9,7 @@ import {SplashScreen} from '@ionic-native/splash-screen/ngx';
 import {StatusBar} from '@ionic-native/status-bar/ngx';
 import {MaskModule} from './@core/modules/mask';
 import {DialogModule} from './@core/modules/dialog';
+import {ToastModule} from './@core/modules/toast';
 import {PickerModule} from './@core/modules/picker';
 import {AppRoutingModule} from './app-routing.module';
 import {CoreModule} from './@core/core.module';
@@ -30,6 +31,7 @@ import {environment} from '../environments/environment';
     PickerModule,
     MaskModule,
     DialogModule,
+    ToastModule,
     CoreModule.forRoot(),
     ThemeModule.forRoot(),
     AppRoutingModule,

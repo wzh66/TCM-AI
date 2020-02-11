@@ -49,6 +49,7 @@
     <mat-form-field>
       <mat-label>详细地址</mat-label>
       <input formControlName="address" matInput placeholder="请输入企业详细地址" required>
+      <span (click)="getAddress()" mat-button matSuffix>获取</span>
     </mat-form-field>
     <mat-form-field>
       <input style="display: none" [placeholder]="'所属行业'" formControlName="industryIds" matInput required>

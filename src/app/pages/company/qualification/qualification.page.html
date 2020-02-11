@@ -49,9 +49,9 @@
       </mat-form-field>
       <mat-form-field *ngIf="condition.fieldType === '0003'">
         <mat-label>{{condition.conditionName}}</mat-label>
-        <input (click)="datePicker(condition.conditionId)" [formControlName]="condition.conditionId" matInput
+        <input (click)="dateTimePicker(condition.conditionId + '')" [formControlName]="condition.conditionId" matInput
                placeholder="请选择时间" [required]="!!condition.required">
-        <button (click)="datePicker(condition.conditionId)" mat-button matSuffix mat-icon-button>
+        <button (click)="dateTimePicker(condition.conditionId + '')" mat-button matSuffix mat-icon-button>
           <ion-icon name="md-calendar"></ion-icon>
         </button>
       </mat-form-field>

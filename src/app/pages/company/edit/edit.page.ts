@@ -4,9 +4,8 @@ import {FormGroup, FormControl, Validators, ValidationErrors, FormGroupDirective
 import {Router, ActivatedRoute} from '@angular/router';
 import {LocationStrategy} from '@angular/common';
 import {TabsService} from '../../../tabs/tabs.service';
-/*import {DialogService} from '../../../@core/data/dialog.service';*/
+import {ToastService} from '../../../@core/modules/toast';
 import {DialogService} from '../../../@core/modules/dialog';
-import {LoadingService} from '../../../@core/data/loading.service';
 import {ModalService} from '../../../@core/data/modal.service';
 import {PickerService} from '../../../@core/modules/picker';
 import {AuthService} from '../../auth/auth.service';
@@ -109,7 +108,7 @@ export class CompanyEditPage implements OnInit {
               private tabsSvc: TabsService,
               private modalSvc: ModalService,
               private modalController: ModalController,
-              private loadingSvc: LoadingService,
+              private toastSvc: ToastService,
               private dialogSvc: DialogService,
               private pickerSvc: PickerService,
               private dictSvc: DictService,
@@ -178,6 +177,15 @@ export class CompanyEditPage implements OnInit {
     });
   }
 
+  getAddress() {
+    this.companySvc.find(this.form.get('companyName').value).subscribe(res => {
+      if (res.data) {
+        const company = res.data.companyDTO;
+        this.form.get('address').setValue(company.address);
+      }
+    });
+  }
+
   cityPicker() {
     this.form.get('province').markAsTouched();
     this.pickerSvc.showCity(DATA, '', '', {cancel: '取消', confirm: '确认'}).subscribe(res => {
@@ -226,9 +234,9 @@ export class CompanyEditPage implements OnInit {
     if (this.form.invalid) {
       return false;
     }
-    this.loadingSvc.show('提交中...', 0).then();
+    this.toastSvc.show('提交中...', 0);
     this.companySvc.update(this.form.value).subscribe(res => {
-      this.loadingSvc.hide();
+      this.toastSvc.hide();
       if (res) {
         this.form.get('custId').setValue(res.busCust.id);
         this.submitted = true;

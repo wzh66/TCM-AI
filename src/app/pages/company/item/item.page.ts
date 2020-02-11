@@ -3,9 +3,8 @@ import {Title} from '@angular/platform-browser';
 import {Router, ActivatedRoute} from '@angular/router';
 import {StorageService} from '../../../@core/utils/storage.service';
 import {TabsService} from '../../../tabs/tabs.service';
-/*import {DialogService} from '../../../@core/data/dialog.service';*/
+import {ToastService} from '../../../@core/modules/toast';
 import {DialogService} from '../../../@core/modules/dialog';
-import {LoadingService} from '../../../@core/data/loading.service';
 import {AuthService} from '../../auth/auth.service';
 import {CompanyService} from '../company.service';
 
@@ -25,7 +24,7 @@ export class CompanyItemPage {
               private router: Router,
               private storageSvc: StorageService,
               private tabsSvc: TabsService,
-              private loadingSvc: LoadingService,
+              private toastSvc: ToastService,
               private dialogSvc: DialogService,
               private authSvc: AuthService,
               private companySvc: CompanyService) {
@@ -48,9 +47,9 @@ export class CompanyItemPage {
   delete() {
     this.dialogSvc.show({content: '是否确认删除【' + this.data.busCust.companyName + '】企业信息？', cancel: '取消', confirm: '确认删除'}).subscribe(state => {
       if (state.value) {
-        this.loadingSvc.show('删除中...', 0).then();
+        this.toastSvc.show('删除中...', 0);
         this.companySvc.delete(this.token.key, this.id).subscribe(res => {
-          this.loadingSvc.hide();
+          this.toastSvc.hide();
           this.router.navigate(['/pages/company/list']);
         });
       }

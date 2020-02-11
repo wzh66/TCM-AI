@@ -4,7 +4,6 @@ import {ActivatedRoute} from '@angular/router';
 import {LocationStrategy} from '@angular/common';
 
 import {PickerService} from '../../../../@core/modules/picker';
-import {LoadingService} from '../../../../@core/data/loading.service';
 import {TabsService} from '../../../../tabs/tabs.service';
 import {DictService} from '../../../../@core/data/dict.service';
 import {AuthService} from '../../../auth/auth.service';
@@ -23,7 +22,6 @@ export class CompanyCaseItemPage {
   constructor(private title: Title,
               private route: ActivatedRoute,
               private location: LocationStrategy,
-              private loadingSvc: LoadingService,
               private pickerSvc: PickerService,
               private tabsSvc: TabsService,
               private dictSvc: DictService,
