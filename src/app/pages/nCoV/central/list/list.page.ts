@@ -1,6 +1,6 @@
 import {Component, ViewChild, OnInit} from '@angular/core';
 import {Title} from '@angular/platform-browser';
-import {IonInfiniteScroll, ModalController} from '@ionic/angular';
+import {IonInfiniteScroll, LoadingController, ModalController} from '@ionic/angular';
 import {StorageService} from '../../../../@core/utils/storage.service';
 import {TabsService} from '../../../../tabs/tabs.service';
 import {AuthService} from '../../../auth/auth.service';
@@ -32,7 +32,8 @@ export class NCoVCentralListPage {
               private tabsSvc: TabsService,
               private pickerSvc: PickerService,
               private authSvc: AuthService,
-              private nCoVSvc: NCoVService) {
+              private nCoVSvc: NCoVService,
+              private loadingController: LoadingController) {
   }
 
   ionViewDidEnter() {
@@ -45,9 +46,19 @@ export class NCoVCentralListPage {
   getData() {
     this.params.page = 1;
     this.infiniteScroll.disabled = false;
+    this.presentLoading();
     this.nCoVSvc.central(this.params).subscribe(res => {
       this.data = res.list;
     });
+  }
+
+  async presentLoading() {
+    const loading = await this.loadingController.create({
+      message: '正在努力加载中',
+      duration: 1000
+    });
+    await loading.present();
+    await loading.onDidDismiss();
   }
 
   search(e) {

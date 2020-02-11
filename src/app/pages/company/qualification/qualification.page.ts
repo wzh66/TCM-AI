@@ -4,7 +4,7 @@ import {LocationStrategy} from '@angular/common';
 import {Title} from '@angular/platform-browser';
 import {ActivatedRoute, Router} from '@angular/router';
 import {TabsService} from '../../../tabs/tabs.service';
-import {LoadingService} from '../../../@core/data/loading.service';
+import {ToastService} from '../../../@core/modules/toast';
 import {DialogService} from '../../../@core/modules/dialog';
 import {PickerService} from '../../../@core/modules/picker';
 import {AuthService} from '../../auth/auth.service';
@@ -43,7 +43,7 @@ export class CompanyQualificationPage {
                 private location: LocationStrategy,
                 private fb: FormBuilder,
                 @Inject('FILE_PREFIX_URL') public FILE_PREFIX_URL,
-                private loadingSvc: LoadingService,
+                private toastSvc: ToastService,
                 private dialogSvc: DialogService,
                 private pickerSvc: PickerService,
                 private tabsSvc: TabsService,
@@ -72,9 +72,17 @@ export class CompanyQualificationPage {
     }
 
     datePicker(target) {
+        console.log(target);
         const index = getIndex(this.years, 'value', this.formGroup.get(target).value);
         this.pickerSvc.show([this.years], '', [index]).subscribe(res => {
             this.formGroup.get(target).setValue(res.value);
+        });
+    }
+
+    dateTimePicker(target) {
+        this.pickerSvc.showDateTime('date', 'yyyy-MM-dd', this.form.get(target).value).subscribe(res => {
+            console.log(res);
+            this.form.get(target).setValue(res.formatValue);
         });
     }
 
@@ -88,7 +96,7 @@ export class CompanyQualificationPage {
                 this.conditions = res[0].conditions;
                 this.setupForm(res[0].conditions);
             } else {
-                this.qualificationSvc.item(this.token.key, this.type).subscribe(result => {
+                this.qualificationSvc.item(this.token.key, this.type, this.id).subscribe(result => {
                     this.conditions = result.conditions;
                     this.setupForm(result.conditions);
                 });
@@ -112,9 +120,9 @@ export class CompanyQualificationPage {
 
 
     create(id) {
-        this.loadingSvc.show('方案生成中...', 0).then();
+        this.toastSvc.show('方案生成中...', 0);
         this.qualificationSvc.create(this.token.key, id).subscribe(res => {
-            this.loadingSvc.hide();
+            this.toastSvc.hide();
             if (res) {
                 this.dialogSvc.show({content: '成功生成方案' + res.name, cancel: '', confirm: '我知道了'}).subscribe(() => {
                     this.router.navigate(['/pages/plan/list', this.id], {queryParams: {type: this.type}});
@@ -129,9 +137,9 @@ export class CompanyQualificationPage {
         if (this.form.invalid || this.formGroup.invalid) {
             return false;
         }
-        this.loadingSvc.show('提交中...', 0).then();
+        this.toastSvc.show('提交中...', 0);
         this.qualificationSvc.add(this.formGroup.value).subscribe(res => {
-            this.loadingSvc.hide();
+            this.toastSvc.hide();
             if (res) {
                 this.create(res);
             }
