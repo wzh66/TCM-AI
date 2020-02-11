@@ -36,10 +36,12 @@
 
 .statistics {
   text-align: center;
+
   .count {
     font-size: 23px;
     text-align: center;
   }
+
   .label {
     font-size: 11px;
     color: #333;
@@ -49,6 +51,28 @@
     background: #f4f4f4;
     padding: 3px 10px;
     margin-top: 5px;
+  }
+}
+
+ion-list {
+  ion-list-header {
+    --background: #f8f8f8;
+    padding-inline-end: calc(var(--ion-safe-area-left, 0px) + 16px);
+  }
+
+  ion-item {
+    ion-label {
+      text-overflow: unset;
+      white-space: pre-wrap;
+
+      p {
+        font-size: 12px;
+      }
+    }
+
+    ion-note {
+      font-size: 12px;
+    }
   }
 }
 

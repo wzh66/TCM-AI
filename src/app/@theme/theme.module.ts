@@ -33,7 +33,8 @@ const MATERIAL_PART = [
 
 import {UploaderModule} from './modules/uploader';
 import {SatDatepickerModule, SatNativeDateModule} from 'saturn-datepicker';
-
+import {NgxEchartsModule} from 'ngx-echarts';
+import {WxModule} from '../@core/modules/wx';
 import {COMPONENTS, ENTRY_COMPONENTS, PIPES} from './index';
 
 @NgModule({
@@ -47,7 +48,9 @@ import {COMPONENTS, ENTRY_COMPONENTS, PIPES} from './index';
     IonicModule,
     UploaderModule,
     SatDatepickerModule,
-    SatNativeDateModule
+    SatNativeDateModule,
+    NgxEchartsModule,
+    WxModule.forRoot()
   ],
   exports: [
     CommonModule,
@@ -59,6 +62,8 @@ import {COMPONENTS, ENTRY_COMPONENTS, PIPES} from './index';
     UploaderModule,
     SatDatepickerModule,
     SatNativeDateModule,
+    NgxEchartsModule,
+    WxModule,
     ...COMPONENTS,
     ...PIPES
   ],

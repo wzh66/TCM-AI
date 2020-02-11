@@ -1,0 +1,69 @@
+<ion-content>
+  <ion-list *ngIf="data">
+    <ion-card class="card-access">
+      <ion-card-header>
+        <ion-card-subtitle>{{data.reportDateBegin | date : 'yyyy.MM.dd'}} - {{data.reportDateEnd | date : 'yyyy.MM.dd'}}</ion-card-subtitle>
+        <ion-card-title>{{data.name}}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p>补贴金额范围：{{data.subsidyAmtBegin}} - {{data.subsidyAmtEnd}}万</p>
+      </ion-card-content>
+      <ion-card-content>
+        <p>申请所需时长：{{data.reportTiming}}个月</p>
+      </ion-card-content>
+      <ion-card-content>
+        <p>适用行业</p>
+        <p>{{data.industryNames}}</p>
+      </ion-card-content>
+    </ion-card>
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>申报条件</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <div [innerHTML]="data.applyRemark | html"></div>
+      </ion-card-content>
+    </ion-card>
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>申报材料</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <div [innerHTML]="data.dataRemark | html"></div>
+      </ion-card-content>
+    </ion-card>
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>支持内容</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <div [innerHTML]="data.supportRemark | html"></div>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>政策链接</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p *ngFor="let item of data.urls;let i = index">{{i + 1}}、<a [href]="item.url">{{item.urlName}}</a></p>
+      </ion-card-content>
+    </ion-card>
+  </ion-list>
+</ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-grid class="ion-no-padding">
+      <ion-row>
+        <ion-col class="ion-no-padding" size="4">
+          <ion-button shape="round" router-direction="back" (click)="share()" color="light" expand="full">
+            <ion-icon name="share-alt"></ion-icon>
+            分享</ion-button>
+        </ion-col>
+        <ion-col class="ion-no-padding" size="8">
+          <ion-button shape="round" [routerLink]="['/pages/nCoV/get']" color="danger" expand="full">订阅所在城市政策汇编</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-toolbar>
+</ion-footer>
