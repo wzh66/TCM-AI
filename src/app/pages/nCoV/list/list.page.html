@@ -35,3 +35,25 @@
     </ion-infinite-scroll-content>
   </ion-infinite-scroll>
 </ion-content>
+<ion-footer>
+    <ion-toolbar>
+        <ion-grid class="ion-no-padding">
+            <ion-row>
+                <ion-col class="ion-no-padding" size="2">
+                    <ion-tab-button (click)="index()">
+                        <ion-img [src]="['/assets/nCoV/home.png']" style="width: 1.5rem;height: 1.5rem"></ion-img>
+                        <ion-label style="font-size: 0.8rem">首页</ion-label>
+                    </ion-tab-button>
+                </ion-col>
+                <ion-col class="ion-no-padding" size="4">
+                    <ion-button shape="round" router-direction="back" (click)="share()" color="light" expand="full">
+                        <ion-icon name="share-alt"></ion-icon>
+                        分享</ion-button>
+                </ion-col>
+                <ion-col class="ion-no-padding" size="6">
+                    <ion-button shape="round" [routerLink]="['/pages/nCoV/get']" color="danger" expand="full">订阅所在城市政策汇编</ion-button>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </ion-toolbar>
+</ion-footer>
