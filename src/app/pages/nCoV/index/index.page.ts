@@ -63,13 +63,13 @@ export class NCoVIndexPage implements AfterViewInit {
         let value = 0;
         res.list.forEach(item => {
           item.province = item.province
-          .replace('省', '')
-          .replace('市', '')
-          .replace('自治区', '')
-          .replace('壮族', '')
-          .replace('维吾尔', '')
-          .replace('回族', '')
-          .replace('特别行政区', '');
+            .replace('省', '')
+            .replace('市', '')
+            .replace('自治区', '')
+            .replace('壮族', '')
+            .replace('维吾尔', '')
+            .replace('回族', '')
+            .replace('特别行政区', '');
           if (item.policyCount > max) {
             max = item.policyCount;
           }
@@ -92,18 +92,22 @@ export class NCoVIndexPage implements AfterViewInit {
           if (!exist) {
             items.push({
               name: item.name
-              .replace('省', '')
-              .replace('市', '')
-              .replace('自治区', '')
-              .replace('壮族', '')
-              .replace('维吾尔', '')
-              .replace('回族', '')
-              .replace('特别行政区', ''),
+                .replace('省', '')
+                .replace('市', '')
+                .replace('自治区', '')
+                .replace('壮族', '')
+                .replace('维吾尔', '')
+                .replace('回族', '')
+                .replace('特别行政区', ''),
               value
             });
           }
         });
-        console.log(items);
+        items.forEach(item => {
+          if (item.name === '北京' || item.name === '上海' || item.name === '重庆' || item.name === '天津') {
+            item.value = item.value + value;
+          }
+        });
         this.mapLoaded = true;
         // register map:
         echarts.registerMap('china', geo);
@@ -132,7 +136,7 @@ export class NCoVIndexPage implements AfterViewInit {
               type: 'map',
               mapType: 'china', // map type should be registered
               itemStyle: {
-                normal: {label: {show: false, fontSize: 8}},
+                normal: {label: {show: true, fontSize: 8}},
                 emphasis: {label: {show: true}}
               },
               data: items
