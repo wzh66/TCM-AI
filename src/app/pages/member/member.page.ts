@@ -14,12 +14,23 @@ import {DialogService} from '../../@core/modules/dialog';
 import {IonInfiniteScroll} from '@ionic/angular';
 import {DatePipe} from '@angular/common';
 import {OwnerComponent} from './owner/owner';
+import {MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORMATS, MomentDateAdapter} from '@angular/material-moment-adapter';
+import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from 'saturn-datepicker';
+
 
 @Component({
   selector: 'app-member',
   templateUrl: './member.page.html',
   styleUrls: ['./member.page.scss'],
-  providers: [DatePipe]
+  providers: [DatePipe,
+    {provide: MAT_DATE_LOCALE, useValue: 'zh_CN'},
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
+    },
+    {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS}
+  ]
 })
 export class MemberPage {
   token = this.authSvc.token();
