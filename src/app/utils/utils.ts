@@ -61,7 +61,7 @@ export function listToTree(list) {
       }
     }
     // 把根节点提取出来，parentId为null的就是根节点
-    if (copyList[i].parentId === 0) {
+    if (!copyList[i].parentId) {
       tree.push(copyList[i]);
     }
   }

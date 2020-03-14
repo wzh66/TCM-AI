@@ -136,6 +136,7 @@ export class CompanyEditPage implements OnInit {
     this.industrySvc.list(this.token.key)
       .pipe(map(res => this.industries = res))
       .subscribe(industries => {
+        console.log(this.industries);
         if (this.id !== '0') {
           this.form.get('custId').enable();
           this.companySvc.get(this.token.key, this.id).subscribe(res => {
