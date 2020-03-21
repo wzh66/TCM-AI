@@ -1,0 +1,49 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title></ion-title>
+        <ion-buttons slot="start" (click)="back()">
+            <img src="/assets/icon/chevron-back-outline.svg" width="20" height="20">Back
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-list>
+        <ion-list-header>
+            <p>Please fill in your information</p>
+        </ion-list-header>
+        <form [formGroup]="form">
+            <ion-grid>
+                <ion-row>
+                    <ion-col size="12">
+                        <span class="value"><span class="label">Name：</span><input matInput type="text" required formControlName="name"></span>
+                    </ion-col>
+                  <ion-col size="12">
+                    <span class="value"><span class="label">Sex：</span><mat-radio-group formControlName="sex">
+                            <mat-radio-button value="男">Male</mat-radio-button>
+                            <mat-radio-button value="女">Female</mat-radio-button>
+                        </mat-radio-group></span>
+                  </ion-col>
+                  <ion-col size="12">
+                    <span class="value"><span class="label">Age：</span><input matInput type="number" pattern="[0-9]*" required formControlName="age"></span>
+                  </ion-col>
+                  <ion-col size="12">
+                    <span class="value"><span class="label">Phone number：</span><input type="tel" id="phone" pattern="[0-9]*" required formControlName="phone" style="margin-left: 43px;width: 66%"></span>
+                  </ion-col>
+                  <ion-col size="12">
+                    <span class="value"><span class="label">E-mail：</span><input type="text" matInput required formControlName="email"></span>
+                  </ion-col>
+                  <ion-col size="12">
+                    <span class="value"><span class="label">Location：</span><span style="border: 1px solid #dadada;padding: 5px;" (click)="getPosition()">please open GPS function</span></span>
+                  </ion-col>
+                </ion-row>
+            </ion-grid>
+            <ion-button color="primary" (click)="submit()">
+              Submission
+            </ion-button>
+        </form>
+    </ion-list>
+</ion-content>
+<ion-footer>
+    <p>Copyright@2020 MyTCMOnline.com</p>
+</ion-footer>

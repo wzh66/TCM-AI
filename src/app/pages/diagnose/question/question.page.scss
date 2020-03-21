@@ -1,0 +1,25 @@
+mat-radio-group {
+  display: flex;
+  flex-direction: column;
+
+  mat-radio-button {
+    margin: 10px 15px;
+  }
+}
+
+ion-list-header {
+  --background: #f4f4f4;
+  color: #1f95ff;
+}
+
+ion-button {
+  display: block;
+  width: 30%;
+  margin: -20px auto;
+}
+
+ion-label {
+  text-overflow: unset !important;
+  overflow: auto !important;
+  white-space: normal !important;
+}

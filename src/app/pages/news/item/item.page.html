@@ -1,0 +1,17 @@
+<ion-header>
+    <ion-toolbar>
+      <ion-buttons slot="start" (click)="back()">
+          <img src="/assets/icon/chevron-back-outline.svg" width="20" height="20">Back
+      </ion-buttons>
+        <ion-title>TCM-AI</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <h3>{{news?.title}}</h3>
+    <p>{{news?.updateTime | date:'yyyy-MM-dd HH:mm:ss'}}</p>
+    <div [innerHTML]="news?.detail" style="margin: 0 15px"></div>
+</ion-content>
+<ion-footer>
+    <p>Copyright@2020 MyTCMOnline.com</p>
+</ion-footer>

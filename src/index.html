@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8"/>
-  <title>华海云秘</title>
+  <title>TCM AI</title>
 
   <base href="/"/>
 
@@ -19,14 +19,18 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
   <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/js/build/css/intlTelInput.css">
   <link rel="manifest" href="manifest.webmanifest">
   <meta name="theme-color" content="#1976d2">
   <meta name="referrer" content="no-referrer">
+
 </head>
 
 <body>
 <app-root></app-root>
-<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.slim.min.js"></script>
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://apis.map.qq.com/tools/geolocation/min?key=PDBBZ-2NVWV-7GAPA-UKVP5-YED6S-FRB6L&referer=danius"></script>
+<script src="/assets/js/build/js/intlTelInput.js"></script>
 <script>
     $(document).on('blur', 'input,textarea', () => {
         setTimeout(() => {

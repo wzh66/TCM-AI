@@ -1,0 +1,35 @@
+
+<ion-content>
+    <ion-slides [options]="slideOpts" pager="true">
+        <ion-slide *ngFor="let img of imgs">
+          <a *ngIf="img.prourl" href="{{img.prourl}}">
+            <img src="{{FILE_PREFIX_URL+img.proimg}}">
+          </a>
+          <img *ngIf="!img.prourl" src="{{FILE_PREFIX_URL+img.proimg}}">
+        </ion-slide>
+    </ion-slides>
+    <ion-list>
+        <ion-chip color="primary" routerLink="/pages/diagnose/list">
+            <ion-icon name="camera"></ion-icon>
+            <ion-label>Start Self-Decection</ion-label>
+        </ion-chip>
+        <a style="position: absolute;right: 15px;top: 15px;font-size: 12px;text-decoration: underline" (click)="toRecord()">My Records</a>
+        <p class="text">1. Based on your body conditions, TCM expert will give you health evaluation and suggestions for COVID -19.</p>
+        <p class="text">2. The health suggestions are from the guildance of National Administration of Traditional Chinese Medicine of the PRC.</p>
+    </ion-list>
+    <ion-list>
+        <ion-list-header style="--background:#f4f4f4"><ion-label style="color: #1f95ff;">Recommended Links</ion-label><ion-label style="float: right;margin-right: 5px" (click)="toNewList()">More+</ion-label></ion-list-header>
+        <ion-item *ngFor="let item of news" [routerLink]="['/pages/news/item',item.id]" detail="false">
+            <ion-label>
+                <h2>{{item.title}}</h2>
+                <p>{{item.updateTime | date:'yyyy-MM-dd HH:mm:ss'}}</p>
+            </ion-label>
+            <ion-thumbnail slot="end">
+                <img src="{{FILE_PREFIX_URL+item.logo}}">
+            </ion-thumbnail>
+        </ion-item>
+    </ion-list>
+</ion-content>
+<ion-footer>
+    <p>Copyright@2020 MyTCMOnline.com</p>
+</ion-footer>

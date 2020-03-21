@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title></ion-title>
+    <ion-buttons slot="start" (click)="back()">
+      <img src="/assets/icon/chevron-back-outline.svg" width="20" height="20">Back
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item *ngFor="let item of news" [routerLink]="['/pages/news/item',item.id]" detail="false">
+    <ion-label>
+      <h2>{{item.title}}</h2>
+      <p>{{item.updateTime | date:'yyyy-MM-dd HH:mm:ss'}}</p>
+    </ion-label>
+    <ion-thumbnail slot="end">
+      <img src="{{FILE_PREFIX_URL+item.logo}}">
+    </ion-thumbnail>
+  </ion-item>
+</ion-content>
+<ion-footer>
+  <p>Copyright@2020 MyTCMOnline.com</p>
+</ion-footer>

@@ -1,0 +1,39 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start" (click)="back()">
+            <img src="/assets/icon/chevron-back-outline.svg" width="20" height="20">Back
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <p style="position: absolute;margin-left:10px;top: 10px;color: #fff">Please answer the relevant information</p>
+    <ion-img src="/assets/images/pic_top2.png"></ion-img>
+    <form *ngIf="questions.length > 0" [formGroup]="form">
+        <ng-container *ngFor="let item of questions;let i = index">
+            <ion-list *ngIf="selectedIndex === i">
+                <ion-list-header>
+                    <p>{{item.name}}</p>
+                </ion-list-header>
+                <mat-radio-group *ngIf="item.type === 0" [formControlName]="item.id">
+                    <mat-radio-button [value]="answer.value"
+                                      *ngFor="let answer of item.itemList">{{answer.name}}</mat-radio-button>
+                </mat-radio-group>
+
+                <ion-list *ngIf="item.type === 1">
+                    <ion-item *ngFor="let answer of item.itemList" lines="none">
+                        <ion-checkbox [name]="item.id" slot="start" (ionChange)="change(item,answer)"
+                                      color="secondary"></ion-checkbox>
+                        <ion-label>{{answer.name}}</ion-label>
+                    </ion-item>
+                </ion-list>
+            </ion-list>
+        </ng-container>
+        <ion-button color="primary" (click)="next(selectedIndex === questions.length-1)" [disabled]="form.get(questions[selectedIndex].id).invalid">
+            {{selectedIndex === questions.length-1 ? 'Submission' : 'Next'}}
+        </ion-button>
+    </form>
+</ion-content>
+<ion-footer>
+    <p>Copyright@2020 MyTCMOnline.com</p>
+</ion-footer>

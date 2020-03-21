@@ -1,0 +1,33 @@
+<ion-header>
+    <ion-toolbar>
+      <ion-buttons slot="start" (click)="back()">
+          <img src="/assets/icon/chevron-back-outline.svg" width="20" height="20">Back
+      </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <p style="position: absolute;left: 35%;top: 10px;color: #fff">Detection Result</p>
+    <p style="position: absolute;color: #f4f809;text-align: center;margin: 60px auto;width: 100%;">{{record?.dianame}}</p>
+    <ion-img src="/assets/images/pic_top3.png"></ion-img>
+    <ion-list>
+        <ion-list-header>Features</ion-list-header>
+        <p>{{record?.features}}</p>
+    </ion-list>
+    <ion-list>
+        <ion-list-header>Prescription</ion-list-header>
+        <p>{{record?.prescription}}</p>
+    </ion-list>
+    <ion-list>
+        <ion-list-header>Usage</ion-list-header>
+        <p>{{record?.usage}}</p>
+    </ion-list>
+    <ion-list>
+        <ion-list-header>Suggestions</ion-list-header>
+        <p [innerHTML]="record?.suggestions">
+        <p>
+    </ion-list>
+</ion-content>
+<ion-footer>
+    <p>Copyright@2020 MyTCMOnline.com</p>
+</ion-footer>

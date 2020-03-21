@@ -42,8 +42,8 @@ import {environment} from '../environments/environment';
     SplashScreen,
     QueryList,
     {provide: RouteReuseStrategy, useClass: IonicRouteStrategy},
-    {provide: 'PREFIX_URL', useValue: '/api/wisp/intf/call?action='},
-    {provide: 'FILE_PREFIX_URL', useValue: 'http://' + location.host + '/api/wisp/admin/fileupload/previewFile?id='}
+    {provide: 'PREFIX_URL', useValue: 'api/tcm/intf/call?action='},
+    {provide: 'FILE_PREFIX_URL', useValue: 'api/tcm/admin/fileupload/previewFile?id='}
   ],
   exports: [],
   bootstrap: [AppComponent]

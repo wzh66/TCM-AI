@@ -34,11 +34,11 @@ export class AuthService {
 
   token(token?) {
     if (token) {
-      this.storage.set('token', JSON.stringify(token));
+      this.storage.set('key', JSON.stringify(token));
     } else if (token === null) {
-      this.storage.remove('token');
+      this.storage.remove('key');
     } else {
-      const TOKEN = this.storage.get('token');
+      const TOKEN = this.storage.get('key');
       if (TOKEN) {
         return JSON.parse(TOKEN);
       } else {

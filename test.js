@@ -1,1 +1,4 @@
-console.log((new Date()));
+
+var value = "1. Minimize contact with surrounding objects, wash hands frequently, wear masks when going out, avoid crowded places, and minimize parties. \r\n 2. Avoid staying up late and ensure adequate rest. \r\n 3. Avoid wind and cold, and keep head, neck, lower back, and lower limbs warm. People who are prone to sweating, especially children, pay attention to changing clothes as soon as possible after sweating, or put on a towel in advance to absorb sweat on the chest and back, keep your body dry, and add and subtract in time according to the weather and sweating Clothing. \r\n 4. Avoid eating greasy, fried, grilled, spicy food; eat fruits with strong cold and cold, or use fruit to heat it; eat dairy products in moderation, not too much; food should be cooked to make it easy to absorb edible. \r\n 5. Develop the habit of regular bowel movements every day, try to ensure that the stool can be naturally resolved every day.";
+value = value.replace(/\r\n/gi, '<br>');
+console.log(value);

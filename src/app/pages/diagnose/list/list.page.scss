@@ -1,0 +1,45 @@
+ion-list{
+  ion-list-header{
+
+    background: #2b82fa;
+    p{
+      margin: 0 auto;
+      color: #fff;
+    }
+  }
+  form{
+    .value {
+      width: 200px;
+      margin-left: 35%;
+      position: relative;
+      font-size: 14px;
+      margin-bottom: 30px;
+      display: block;
+
+      .label {
+        position: absolute;
+        right: 200px;
+        white-space: nowrap;
+        margin-right: 0.75em;
+      }
+
+      &::ng-deep{
+        .flag-container{
+          background: #eee;
+        }
+      }
+    }
+    input{
+      border: 1px solid #dadada;
+      padding: 5px;
+    }
+  }
+}
+mat-radio-button {
+  margin: 0 12px;
+}
+ion-button{
+  display: block;
+  width: 30%;
+  margin: 0 auto;
+}

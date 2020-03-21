@@ -1,0 +1,21 @@
+ion-chip{
+  left: 25%;
+  background: #2b82fa;
+  color: #fff;
+}
+.text{
+  margin: 10px 30px 0 30px;
+  color: #9a9a9a;
+  font-size: 14px;
+}
+
+ion-label{
+  p{
+    margin-top: 10px;
+  }
+    h2 {
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+}
