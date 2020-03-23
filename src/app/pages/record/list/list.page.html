@@ -8,14 +8,24 @@
 </ion-header>
 
 <ion-content>
-  <p style="position: absolute;margin-left:10px;top: 10px;color: #fff">Detection Records</p>
-  <ion-img src="/assets/images/pic_top.png"></ion-img>
-    <ion-item *ngFor="let item of record" [routerLink]="['/pages/record/item',item.id]" detail="false">
-        <ion-label>
-            <h2>{{item.diagnosisDetail.features}}</h2>
-            <p>{{item.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</p>
-        </ion-label>
-    </ion-item>
+    <p style="position: absolute;margin-left:10px;top: 10px;color: #fff">Detection Records</p>
+    <ion-img src="/assets/images/pic_top.png"></ion-img>
+    <div *ngIf="record?.length < 1">
+        <ion-item lines="none">
+            <ion-label>
+                <h2>No record!</h2>
+            </ion-label>
+        </ion-item>
+    </div>
+    <div *ngIf="record?.length > 0">
+        <ion-item *ngFor="let item of record" [routerLink]="['/pages/record/item',item.id]" detail="false">
+            <ion-label>
+                <h2>{{item.diagnosisDetail.features}}</h2>
+                <p>{{item.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</p>
+            </ion-label>
+        </ion-item>
+    </div>
+
 </ion-content>
 <ion-footer>
     <p>Copyright@2020 MyTCMOnline.com</p>

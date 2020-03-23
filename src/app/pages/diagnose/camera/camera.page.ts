@@ -1,8 +1,10 @@
-import {Component, Inject} from '@angular/core';
+import {Component, ElementRef, Inject, ViewChild} from '@angular/core';
 import {Camera, CameraOptions} from '@ionic-native/camera/ngx';
 import {StorageService} from '../../../@core/utils/storage.service';
 import {Router} from '@angular/router';
 import {DialogService} from '../../../@core/modules/dialog';
+import {LoadingService} from '../../../@core/utils/loading.service';
+
 
 declare var $: any;
 const contextPath = 'http://localhost:80/';
@@ -25,41 +27,62 @@ $.extend({
     providers: [Camera]
 })
 export class DiagnoseCameraPage {
+    show = false;
+    video = null;
+    @ViewChild('video', {static: false}) private videoRef;
+    @ViewChild('tongue', {static: false}) private tongue: ElementRef;
+    @ViewChild('content', {static: false}) private content;
     constructor(private cameraSvc: Camera,
                 @Inject('PREFIX_URL') private PREFIX_URL,
                 private storage: StorageService,
                 private router: Router,
-                private dialogSvc: DialogService) {
+                private dialogSvc: DialogService,
+                private loadingSvc: LoadingService) {
+    }
+
+    ionViewDidEnter() {
         this.camera();
     }
 
     camera() {
-        navigator.mediaDevices.getUserMedia({audio: false, video: true})
+        navigator.mediaDevices.getUserMedia({audio: false, video: {facingMode: 'user'}})
             .then((stream) => {
-                console.log(stream);
-                const video = document.querySelector('video');
-                video.srcObject = stream;
-                video.play();
+                this.video = document.querySelector('video');
+                this.video.srcObject = stream;
             })
             .catch((err) => {
                 console.log(err);
             });
     }
 
+    onclick() {
+        this.show = true;
+        this.video.play();
+    }
+
     photo() {
+        const width = this.videoRef.nativeElement.videoWidth;
+        const height = this.videoRef.nativeElement.videoHeight;
         // @ts-ignore
         const canvas: HTMLCanvasElement = document.getElementById('canvas');
-        canvas.width = 750;
-        canvas.height = 1440;
+        canvas.width = width;
+        canvas.height = height;
         const context = canvas.getContext('2d');
         const video = document.getElementById('video');
-        console.log(video);
+        const contentWidth = this.content.el.clientWidth;
+        const contentHeight = this.content.el.clientHeight;
+        console.log(this.videoRef);
+        const x = this.tongue.nativeElement.offsetLeft,
+            y = this.tongue.nativeElement.offsetTop,
+            w = this.tongue.nativeElement.offsetWidth,
+            h = this.tongue.nativeElement.offsetHeight;
         // @ts-ignore
-        context.drawImage(video, 0, 0, 750, 1440);
+        context.drawImage(video, (width / w) * x, (height / contentHeight) * height + height * 0.1, w, h, 0, 0, width, height);
         // @ts-ignore
         document.getElementById('image').src = canvas.toDataURL('image/png', 1.0);
-        // @ts-ignore
-        this.request(document.getElementById('image').src, (res) => {
+        const data = canvas.toDataURL('image/png', 1.0);
+        this.loadingSvc.show('loading', 0);
+        this.request(data, (res) => {
             console.log('res:', res);
         });
 
@@ -87,13 +110,17 @@ export class DiagnoseCameraPage {
     }
 
     dump(res) {
-        if (!res.result) {
+        const result = JSON.parse(res);
+        if (!result.result) {
+            this.loadingSvc.hide();
             this.dialogSvc.show({
                 content: 'Please take another picture！', cancel: '', confirm: 'I know'
             }).subscribe();
-            return false;
+        } else {
+            this.loadingSvc.hide();
+            this.storage.set('fileId', result.result);
+            this.router.navigate(['/pages/diagnose/question']);
         }
-        this.storage.set('fileId', JSON.parse(res).result);
-        this.router.navigate(['/pages/diagnose/question']);
+
     }
 }

@@ -17,15 +17,8 @@ export class AuthService {
   }
 
   requestAuth() {
-    if (this.router.url.indexOf('auth') !== -1) {
-      return false;
-    }
-    if (this.loginRedirectUrl) {
-      return false;
-    }
-
-    this.loginRedirectUrl = this.router.url;
-    this.router.navigate(['/pages/auth']);
+    this.storage.clear();
+    this.router.navigate(['/pages/diagnose/list']);
   }
 
   login(body): Observable<any> {

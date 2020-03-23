@@ -28,16 +28,6 @@ export class RecordListPage {
     }
 
     getData() {
-        if (!this.key) {
-            this.dialogSvc.show({
-                content: 'No record！', cancel: '', confirm: 'I know'
-            }).subscribe(value => {
-                if (value.value) {
-                    this.router.navigate(['/pages/index/index']);
-                }
-            });
-            return false;
-        }
         this.recordSvc.get(this.key).subscribe(res => {
             this.record = res.list;
             this.record.forEach(item => {

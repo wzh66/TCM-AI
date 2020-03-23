@@ -19,12 +19,12 @@ export class DiagnoseQuestionPage {
     constructor(private diagxSvc: DiagnoseService,
                 private storage: StorageService,
                 private router: Router,
-                private location: LocationStrategy) {
+                private location: LocationStrategy,) {
         this.getData();
     }
 
     getData() {
-        this.diagxSvc.getQuestionList().subscribe(res => {
+        this.diagxSvc.getQuestionList(this.storage.get('key1')).subscribe(res => {
             this.questions = res;
             res.forEach(item => {
                 if (item.type === 1) {
@@ -95,8 +95,10 @@ export class DiagnoseQuestionPage {
             })()
         };
         this.diagxSvc.submit(body).subscribe(res => {
-            this.storage.setObject('result', JSON.parse(JSON.stringify(res)));
-            this.router.navigate(['/pages/diagnose/result']);
+            if (res) {
+                this.storage.setObject('result', JSON.parse(JSON.stringify(res)));
+                this.router.navigate(['/pages/diagnose/result']);
+            }
         });
 
     }

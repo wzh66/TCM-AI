@@ -1,4 +1,4 @@
-.camera{
+.camera {
   position: absolute;
   bottom: 5px;
   left: 45%;
@@ -6,7 +6,8 @@
   border-radius: 50%;
   width: 50px;
   height: 50px;
-  img{
+
+  img {
     position: relative;
     display: block;
     width: 20px;
@@ -14,11 +15,71 @@
     margin: 15px auto;
   }
 }
-.tonguo{
-  display: block;
+.toggle{
+  position: absolute;
+  bottom: 5px;
+  right: 40px;
+  width: 50px;
+  height: auto;
+}
+
+
+.tonguo {
   width: 200px;
   height: auto;
+  display: block;
+}
+
+video{
+  width: 100% !important;
+  height: 100% !important;
+}
+
+ion-chip {
+  background: #2b82fa;
+  color: #fff;
+  height: 50px;
+  width: 200px;
+  top: 80%;
+  text-align: center;
+  border-radius: 50px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  ion-label {
+    margin: 0 auto;
+  }
+
+  ion-icon {
+    margin: 0 0 0 20px;
+  }
+}
+
+.tip {
   position: absolute;
-  left: 25%;
-  top: 50%;
+  width: 98%;
+  bottom: 70px;
+
+  .word {
+    text-align: center;
+    color: #fff;
+    background: #1189fd;
+    padding: 10px;
+    border-radius: 5px;
+    margin-left: 4%;
+    height: 40px;
+    font-size: 14px;
+  }
+
+  .triangle {
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 11px solid #1189fd;
+    left: 49.5%;
+    position: absolute;
+  }
 }

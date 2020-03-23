@@ -36,6 +36,7 @@ export class DiagnoseListPage implements OnInit {
             phone: new FormControl('', [Validators.required, Validators.maxLength(20)]),
             email: new FormControl('', []),
             location: new FormControl(this.geo, []),
+            areaCode: new FormControl('', [])
         });
         this.auth();
     }
@@ -44,7 +45,16 @@ export class DiagnoseListPage implements OnInit {
         $('#phone').intlTelInput({
             utilsScript: '/assets/js/build/js/utils.js',
             preferredCountries: ['id'],
-            nationalMode: false
+            nationalMode: true,
+            autoPlaceholder: 'off',
+            /*geoIpLookup: callback => {
+                $.get('http://ipinfo.io', () => {
+                }, 'jsonp').always(resp => {
+                    console.log('resp:', resp);
+                    const countryCode = (resp && resp.country) ? resp.country : '';
+                    callback(countryCode);
+                });
+            },*/
         });
     }
 
@@ -72,9 +82,8 @@ export class DiagnoseListPage implements OnInit {
     }
 
     submit() {
-        let value = this.form.get('phone').value;
-        value = value.replace('+', '');
-        this.form.get('phone').setValue(value);
+        let areaCode = $('#phone').intlTelInput('getSelectedCountryData').dialCode;
+        this.form.get('areaCode').setValue(areaCode);
         this.form.get('location').setValue(this.geo);
 
         if (this.form.get('name').invalid) {
@@ -101,7 +110,7 @@ export class DiagnoseListPage implements OnInit {
             }).subscribe();
             return false;
         }
-        /*const re = /^\w+@[a-z0-9]+\.[a-z]{2,4}$/;
+        /*const re = /^\w+([-_.][A-Za-zd]+)?@[a-z0-9]+\.[a-z]{2,4}$/;
         if (!re.test(this.form.get('email').value)) {
             this.dialogSvc.show({
                 content: 'Please fill in your E-mail correctly', cancel: '', confirm: 'I know'
@@ -118,14 +127,14 @@ export class DiagnoseListPage implements OnInit {
             if (res) {
                 console.log(res.key);
                 this.storage.set('key1', res.key);
-                this.router.navigate(['/pages/diagnose/question']);
+                this.router.navigate(['/pages/diagnose/camera']);
             }
         });
     }
 
     auth() {
         if (this.storage.get('key1')) {
-            this.router.navigate(['/pages/diagnose/question']);
+            this.router.navigate(['/pages/diagnose/camera']);
         }
     }
 }

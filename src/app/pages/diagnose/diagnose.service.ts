@@ -24,8 +24,8 @@ export class DiagnoseService {
             }));
     }
 
-    getQuestionList(): Observable<any> {
-        return this.http.get(this.PREFIX_URL + 'questionList').pipe(observableMargeMap((res: any) => {
+    getQuestionList(key): Observable<any> {
+        return this.http.get(this.PREFIX_URL + 'questionList&key=' + key).pipe(observableMargeMap((res: any) => {
             return this.processResult(res);
         }));
     }

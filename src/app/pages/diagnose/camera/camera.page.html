@@ -1,17 +1,28 @@
-<ion-header>
-  <ion-toolbar>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content>
-  <video id='video'></video>
-  <canvas id="canvas" style="display:none"></canvas>
-  <img id="image">
-  <img src="/assets/images/pic_st.png" class="tonguo"/>
-  <div class="camera" (click)="photo()">
-      <img src="/assets/images/icon_photograph.png" />
+<ion-content #content fullscreen="true">
+    <div [hidden]="show"
+         style="width: 100%;height: 100%;background: url('/assets/images/bg_camera.jpg') no-repeat center center;background-size: 100% 100%;">
+        <ion-chip color="primary" (click)="onclick()">
+            <ion-icon name="camera"></ion-icon>
+            <ion-label>Start Photograph</ion-label>
+        </ion-chip>
+    </div>
+    <div style="width: 100%;height: 100%" [hidden]="!show">
+        <video #video id='video' webkit-playsinline="true" playsinline="true"></video>
+        <canvas id="canvas" style="display:none"></canvas>
+        <img id="image" style="display:none">
+        <div #tongue style="position: absolute;top: 50%;left:22%;width: 56%">
+            <img style="width: 100%" src="/assets/images/pic_st.png" class="tonguo"/>
+        </div>
+        <div class="tip">
+            <div class="word">Keep the light well and your tongue out enough</div>
+            <div class="triangle"></div>
+        </div>
+        <div class="camera" (click)="photo()">
+            <img src="/assets/images/icon_photograph.png"/>
+        </div>
+        <!--<img src="/assets/images/toggle.png" class="toggle" (click)="toggle()"/>-->
     </div>
 </ion-content>
-<ion-footer>
-  <p>Copyright@2020 MyTCMOnline.com</p>
-</ion-footer>
+<!--<ion-footer>-->
+<!--    <p>Copyright@2020 MyTCMOnline.com</p>-->
+<!--</ion-footer>-->
