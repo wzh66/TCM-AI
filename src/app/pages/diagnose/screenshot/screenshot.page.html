@@ -1,15 +1,15 @@
 <ion-header>
-  <ion-toolbar>
-    <p>Move the box so that the tongue is in the box</p>
-  </ion-toolbar>
+    <ion-toolbar>
+        <p>Move the box so that the tongue is in the box</p>
+    </ion-toolbar>
 </ion-header>
 
-<ion-content class="boundary" #content>
-    <img id="img" style="position: absolute;transform: scale(1.5)" #img>
+<ion-content #content>
     <canvas id="canvas" style="display:none"></canvas>
-    <img id="image" style="display:none">
-    <div style="display: flex;align-items:center;justify-content: center">
-        <div cdkDragBoundary=".boundary"  (cdkDragMoved)="move($event)" cdkDrag class="draggable" #drag>
+    <img *ngIf="url" id="image" [src]="url">
+    <div class="boundary">
+        <img id="img" #img>
+        <div cdkDragBoundary=".boundary" (cdkDragEnded)="move($event)" cdkDrag class="draggable" #drag>
             <div class="box" style="border-right: 1px dashed #e0c7be"></div>
             <div class="box" style="border-right: 1px dashed #e0c7be"></div>
             <div class="box"></div>

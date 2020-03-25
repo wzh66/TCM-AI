@@ -18,6 +18,11 @@ export class DiagnoseScreenshotPage {
     @ViewChild('content', {static: false}) private content;
     sx;
     sy;
+    url;
+    position = {
+        x: 0,
+        y: 0
+    };
 
     constructor(private storage: StorageService,
                 private router: Router,
@@ -76,33 +81,36 @@ export class DiagnoseScreenshotPage {
     }
 
     confirm() {
-        console.log('img:', this.imgRef);
         const width = this.imgRef.nativeElement.naturalWidth;
         const height = this.imgRef.nativeElement.naturalHeight;
         // @ts-ignore
         const canvas: HTMLCanvasElement = document.getElementById('canvas');
         const context = canvas.getContext('2d');
         const img = document.getElementById('img');
-        console.log('content:', this.content);
         const contentWidth = this.content.el.clientWidth;
         const contentHeight = this.content.el.clientHeight;
-        console.log('drag:', this.drag);
         const w = this.drag.nativeElement.offsetWidth,
             h = this.drag.nativeElement.offsetHeight;
-        const sw = (width / contentWidth) * w, sh = (width / contentWidth) * h;
-        canvas.width = width;
-        canvas.height = height;
+        const sw = (width / contentWidth) * w, sh = (width / contentWidth) * w;
+        console.log(this.sx, this.sy, sw, sh);
+        canvas.width = sw;
+        canvas.height = sh;
         // @ts-ignore
-        context.drawImage(img, this.sx, this.sy, 270, 270, 0, 0, 270, 270);
+        context.drawImage(img, this.sx, this.sy, sw, sh, 0, 0, sw, sh);
         // this.loadingSvc.show('loading', 0);
         // @ts-ignore
-        document.getElementById('image').src = canvas.toDataURL('image/png', 1.0);
+        console.log(canvas.toDataURL('image/png', 1.0));
+        this.url = canvas.toDataURL('image/png', 1.0);
         /*this.request(this.imageSrc);*/
     }
 
     move(e) {
-        console.log(e);
-        this.sx = e.event.target.offsetLeft;
-        this.sy = e.event.target.offsetTop;
+        let transform = e.source.element.nativeElement.style.transform;
+        transform = transform.slice(transform.indexOf('(') + 1);
+        transform = transform.slice(0, transform.indexOf(')'));
+        transform = transform.split(',');
+        this.sx = parseInt(transform[0]);
+        this.sy = parseInt(transform[1]);
+        console.log(this.sx, this.sy);
     }
 }

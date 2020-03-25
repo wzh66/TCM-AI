@@ -5,7 +5,7 @@
   "homepage": "https://ionicframework.com/",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --disable-host-check --proxy-config proxy.conf.json --port 8081",
+    "start": "sudo ng serve --disable-host-check --proxy-config proxy.conf.json --port 80",
     "build": "ng build --prod --aot --build-optimizer",
     "test": "ng test",
     "lint": "ng lint",
