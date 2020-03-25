@@ -4,7 +4,7 @@ import {Router} from '@angular/router';
 import {DialogService} from '../../../@core/modules/dialog';
 
 @Component({
-    selector: 'app-result',
+    selector: 'app-diagnose-result',
     templateUrl: './result.page.html',
     styleUrls: ['./result.page.scss'],
 })

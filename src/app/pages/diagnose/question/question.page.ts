@@ -6,7 +6,7 @@ import {Router} from '@angular/router';
 import {LocationStrategy} from '@angular/common';
 
 @Component({
-    selector: 'app-question',
+    selector: 'app-diagnose-question',
     templateUrl: './question.page.html',
     styleUrls: ['./question.page.scss'],
 })

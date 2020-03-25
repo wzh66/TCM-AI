@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-toolbar>
+    <p>Move the box so that the tongue is in the box</p>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="boundary" #content>
+    <img id="img" style="position: absolute;transform: scale(1.5)" #img>
+    <canvas id="canvas" style="display:none"></canvas>
+    <img id="image" style="display:none">
+    <div style="display: flex;align-items:center;justify-content: center">
+        <div cdkDragBoundary=".boundary"  (cdkDragMoved)="move($event)" cdkDrag class="draggable" #drag>
+            <div class="box" style="border-right: 1px dashed #e0c7be"></div>
+            <div class="box" style="border-right: 1px dashed #e0c7be"></div>
+            <div class="box"></div>
+            <div class="box" style="border-top: 1px dashed #e0c7be;border-right: 1px dashed #e0c7be;"></div>
+            <div class="box" style="border-top: 1px dashed #e0c7be;border-right: 1px dashed #e0c7be;"></div>
+            <div class="box" style="border-top: 1px dashed #e0c7be;"></div>
+            <div class="box" style="border-top: 1px dashed #e0c7be;border-right: 1px dashed #e0c7be;"></div>
+            <div class="box" style="border-top: 1px dashed #e0c7be;border-right: 1px dashed #e0c7be;"></div>
+            <div class="box" style="border-top: 1px dashed #e0c7be;"></div>
+        </div>
+    </div>
+    <div style="display: flex;align-items:center;justify-content: center;margin-top: 10%">
+        <ion-button style="--background: #fff;--color:#4973fe;" (click)="rephotograph()">rephotograph</ion-button>
+        <ion-button style="--background: #4973fe;--color:#fff;" (click)="confirm()">confirm</ion-button>
+    </div>
+
+
+</ion-content>

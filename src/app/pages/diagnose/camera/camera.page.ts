@@ -1,13 +1,10 @@
 import {Component, ElementRef, Inject, ViewChild} from '@angular/core';
-import {Camera, CameraOptions} from '@ionic-native/camera/ngx';
 import {StorageService} from '../../../@core/utils/storage.service';
 import {Router} from '@angular/router';
-import {DialogService} from '../../../@core/modules/dialog';
 import {LoadingService} from '../../../@core/utils/loading.service';
 
 
 declare var $: any;
-const contextPath = 'http://localhost:80/';
 $.extend({
     send(url, jsonObject, method, callback) {
         const data = method.toUpperCase() == 'GET' ? jsonObject : JSON.stringify(jsonObject);
@@ -20,11 +17,11 @@ $.extend({
     }
 });
 
+
 @Component({
     selector: 'app-diagnose-camera',
     templateUrl: './camera.page.html',
     styleUrls: ['./camera.page.scss'],
-    providers: [Camera]
 })
 export class DiagnoseCameraPage {
     show = false;
@@ -32,11 +29,10 @@ export class DiagnoseCameraPage {
     @ViewChild('video', {static: false}) private videoRef;
     @ViewChild('tongue', {static: false}) private tongue: ElementRef;
     @ViewChild('content', {static: false}) private content;
-    constructor(private cameraSvc: Camera,
-                @Inject('PREFIX_URL') private PREFIX_URL,
+
+    constructor(@Inject('PREFIX_URL') private PREFIX_URL,
                 private storage: StorageService,
                 private router: Router,
-                private dialogSvc: DialogService,
                 private loadingSvc: LoadingService) {
     }
 
@@ -65,62 +61,22 @@ export class DiagnoseCameraPage {
         const height = this.videoRef.nativeElement.videoHeight;
         // @ts-ignore
         const canvas: HTMLCanvasElement = document.getElementById('canvas');
-        canvas.width = width;
-        canvas.height = height;
         const context = canvas.getContext('2d');
         const video = document.getElementById('video');
         const contentWidth = this.content.el.clientWidth;
         const contentHeight = this.content.el.clientHeight;
-        console.log(this.videoRef);
-        const x = this.tongue.nativeElement.offsetLeft,
-            y = this.tongue.nativeElement.offsetTop,
-            w = this.tongue.nativeElement.offsetWidth,
+        const w = this.tongue.nativeElement.offsetWidth,
             h = this.tongue.nativeElement.offsetHeight;
+        const sw = (width / contentWidth) * w, sh = (width / contentWidth) * h;
+        canvas.width = width;
+        canvas.height = height;
         // @ts-ignore
-        context.drawImage(video, (width / w) * x, (height / contentHeight) * height + height * 0.1, w, h, 0, 0, width, height);
+        // context.drawImage(video, ((width - sw) / 2), height / 2, sw, sh, 0, 0, sw, sh);
+        context.drawImage(video, 0, 0, width, height, 0, 0, width, height);
         // @ts-ignore
-        document.getElementById('image').src = canvas.toDataURL('image/png', 1.0);
-        const data = canvas.toDataURL('image/png', 1.0);
-        this.loadingSvc.show('loading', 0);
-        this.request(data, (res) => {
-            console.log('res:', res);
-        });
-
-    }
-
-    request(data, callback) {
-        const that = this;
-        $.ajax({
-            type: 'POST',
-            url: this.PREFIX_URL + 'uploadFile',
-            data: {
-                file: data,
-                key: this.storage.get('key1'),
-                type: 'feature_image',
-                dir: 'feature_image'
-            },
-            async: true,
-            success(res) {
-                that.dump(res);
-            },
-            error(err) {
-                alert('系统错误');
-            }
-        });
-    }
-
-    dump(res) {
-        const result = JSON.parse(res);
-        if (!result.result) {
-            this.loadingSvc.hide();
-            this.dialogSvc.show({
-                content: 'Please take another picture！', cancel: '', confirm: 'I know'
-            }).subscribe();
-        } else {
-            this.loadingSvc.hide();
-            this.storage.set('fileId', result.result);
-            this.router.navigate(['/pages/diagnose/question']);
-        }
-
+        // document.getElementById('image').src = canvas.toDataURL('image/png', 1.0);
+        this.storage.set('imageSrc', canvas.toDataURL('image/png', 1.0));
+        this.loadingSvc.show('loading', 1000).then();
+        this.router.navigate(['/pages/diagnose/screenshot']);
     }
 }

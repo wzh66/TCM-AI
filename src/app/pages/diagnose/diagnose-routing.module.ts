@@ -43,6 +43,16 @@ const routes: Routes = [
             }
         ]
     },
+    {
+        path: 'screenshot',
+        children: [
+            {
+                path: '',
+                loadChildren: () =>
+                    import('./screenshot/screenshot.module').then(m => m.DiagnoseScreenshotPageModule)
+            }
+        ]
+    }
 ];
 
 @NgModule({

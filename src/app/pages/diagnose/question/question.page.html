@@ -20,10 +20,12 @@
                                       *ngFor="let answer of item.itemList">{{answer.name}}</mat-radio-button>
                 </mat-radio-group>
 
+
                 <ion-list *ngIf="item.type === 1">
                     <ion-item *ngFor="let answer of item.itemList" lines="none">
                         <ion-checkbox [name]="item.id" slot="start" (ionChange)="change(item,answer)"
-                                      color="secondary"></ion-checkbox>
+                                      color="secondary" style="--background-checked:#1f95ff !important;--border-color-checked:#1f95ff !important;">
+                        </ion-checkbox>
                         <ion-label>{{answer.name}}</ion-label>
                     </ion-item>
                 </ion-list>

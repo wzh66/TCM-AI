@@ -23,3 +23,15 @@ ion-label {
   overflow: auto !important;
   white-space: normal !important;
 }
+
+mat-radio-button.mat-radio-button.mat-accent.mat-radio-checked {
+  &::ng-deep {
+    .mat-radio-outer-circle {
+      border-color: #1f95ff;
+    }
+
+    .mat-radio-inner-circle {
+      background-color: #1f95ff;
+    }
+  }
+}
