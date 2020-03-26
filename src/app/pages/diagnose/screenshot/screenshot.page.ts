@@ -81,25 +81,18 @@ export class DiagnoseScreenshotPage {
     }
 
     confirm() {
-        const width = this.imgRef.nativeElement.naturalWidth;
-        const height = this.imgRef.nativeElement.naturalHeight;
         // @ts-ignore
         const canvas: HTMLCanvasElement = document.getElementById('canvas');
         const context = canvas.getContext('2d');
         const img = document.getElementById('img');
-        const contentWidth = this.content.el.clientWidth;
-        const contentHeight = this.content.el.clientHeight;
         const w = this.drag.nativeElement.offsetWidth,
             h = this.drag.nativeElement.offsetHeight;
-        const sw = (width / contentWidth) * w, sh = (width / contentWidth) * w;
-        console.log(this.sx, this.sy, sw, sh);
-        canvas.width = sw;
-        canvas.height = sh;
+        canvas.width = w;
+        canvas.height = h;
         // @ts-ignore
-        context.drawImage(img, this.sx, this.sy, sw, sh, 0, 0, sw, sh);
+        context.drawImage(img, this.sx, this.sy, w, h, 0, 0, w, h);
         // this.loadingSvc.show('loading', 0);
         // @ts-ignore
-        console.log(canvas.toDataURL('image/png', 1.0));
         this.url = canvas.toDataURL('image/png', 1.0);
         /*this.request(this.imageSrc);*/
     }
@@ -111,6 +104,5 @@ export class DiagnoseScreenshotPage {
         transform = transform.split(',');
         this.sx = parseInt(transform[0]);
         this.sy = parseInt(transform[1]);
-        console.log(this.sx, this.sy);
     }
 }

@@ -57,22 +57,27 @@ export class DiagnoseCameraPage {
     }
 
     photo() {
-        const width = this.videoRef.nativeElement.videoWidth;
-        const height = this.videoRef.nativeElement.videoHeight;
+        const vw = this.videoRef.nativeElement.videoWidth;
+        const vh = this.videoRef.nativeElement.videoHeight;
         // @ts-ignore
         const canvas: HTMLCanvasElement = document.getElementById('canvas');
         const context = canvas.getContext('2d');
         const video = document.getElementById('video');
-        const contentWidth = this.content.el.clientWidth;
-        const contentHeight = this.content.el.clientHeight;
-        const w = this.tongue.nativeElement.offsetWidth,
-            h = this.tongue.nativeElement.offsetHeight;
-        const sw = (width / contentWidth) * w, sh = (width / contentWidth) * h;
-        canvas.width = width;
-        canvas.height = height;
+        const cw = this.content.el.clientWidth;
+        const ch = this.content.el.clientHeight;
+        const rate = cw / vw;
+        const draw = {
+            x: vw * ((1 - rate) / 2),
+            y: vh * ((1 - rate) / 2),
+            dw: vw * rate,
+            dh: vh - vh * ((1 - rate) / 2)
+        };
+        canvas.width = draw.dw;
+        canvas.height = draw.dh;
+
         // @ts-ignore
         // context.drawImage(video, ((width - sw) / 2), height / 2, sw, sh, 0, 0, sw, sh);
-        context.drawImage(video, 0, 0, width, height, 0, 0, width, height);
+        context.drawImage(video, draw.x, draw.y, draw.dw, draw.dh, 0, 0, draw.dw, draw.dh);
         // @ts-ignore
         // document.getElementById('image').src = canvas.toDataURL('image/png', 1.0);
         this.storage.set('imageSrc', canvas.toDataURL('image/png', 1.0));
