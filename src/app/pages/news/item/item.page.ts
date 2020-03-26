@@ -17,7 +17,7 @@ export class NewsItemPage {
                 private location: LocationStrategy) {
         this.newsSvc.getNewsDetail(this.id).subscribe(res => {
             this.news = res;
-            this.news.detail = this.news.detail.replace(/src="/gi, 'src="https://www.mytcmonline.com');
+            this.news.detail = this.news.detail.replace(/src="/gi, 'src="api');
         });
     }
 

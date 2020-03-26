@@ -7,9 +7,9 @@
 <ion-content #content>
     <canvas id="canvas" style="display:none"></canvas>
     <img *ngIf="url" id="image" [src]="url">
-    <div class="boundary">
+    <div class="boundary" #boundary>
         <img id="img" #img>
-        <div cdkDragBoundary=".boundary" (cdkDragEnded)="move($event)" cdkDrag class="draggable" #drag>
+        <div cdkDragBoundary=".boundary" [cdkDragFreeDragPosition]="position" (cdkDragEnded)="move($event)" cdkDrag class="draggable" #drag>
             <div class="box" style="border-right: 1px dashed #e0c7be"></div>
             <div class="box" style="border-right: 1px dashed #e0c7be"></div>
             <div class="box"></div>

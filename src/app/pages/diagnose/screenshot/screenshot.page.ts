@@ -16,6 +16,7 @@ export class DiagnoseScreenshotPage {
     @ViewChild('img', {static: false}) private imgRef;
     @ViewChild('drag', {static: false}) private drag: ElementRef;
     @ViewChild('content', {static: false}) private content;
+    @ViewChild('boundary', {static: false}) private boundary;
     sx;
     sy;
     url;
@@ -28,13 +29,25 @@ export class DiagnoseScreenshotPage {
                 private router: Router,
                 private dialogSvc: DialogService,
                 private loadingSvc: LoadingService,
-                @Inject('PREFIX_URL') private PREFIX_URL,) {
+                @Inject('PREFIX_URL') private PREFIX_URL) {
     }
 
     ionViewDidEnter() {
         // @ts-ignore
-        document.getElementById('img').src = this.imageSrc;
+        const img = document.getElementById('img').src = this.imageSrc;
+        const image = new Image();
+        image.src = this.imageSrc;
+        image.onload = () => {
+            const width = this.boundary.nativeElement.clientWidth;
+            const height = this.boundary.nativeElement.clientHeight;
+            console.log(width, height);
+            this.position = {
+                x: (width - 270) / 2,
+                y: (height - 270) / 2
+            };
+        };
     }
+
 
     request(data) {
         const that = this;
@@ -91,7 +104,7 @@ export class DiagnoseScreenshotPage {
         const contentHeight = this.content.el.clientHeight;
         const w = this.drag.nativeElement.offsetWidth,
             h = this.drag.nativeElement.offsetHeight;
-        const sw = (width / contentWidth) * w, sh = (width / contentWidth) * w;
+        const sw = (width / contentWidth) * w / 1.5, sh = (width / contentWidth) * w / 1.5;
         console.log(this.sx, this.sy, sw, sh);
         canvas.width = sw;
         canvas.height = sh;
@@ -109,8 +122,8 @@ export class DiagnoseScreenshotPage {
         transform = transform.slice(transform.indexOf('(') + 1);
         transform = transform.slice(0, transform.indexOf(')'));
         transform = transform.split(',');
-        this.sx = parseInt(transform[0]);
-        this.sy = parseInt(transform[1]);
+        this.sx = parseInt(transform[0], 10);
+        this.sy = parseInt(transform[1], 10);
         console.log(this.sx, this.sy);
     }
 }

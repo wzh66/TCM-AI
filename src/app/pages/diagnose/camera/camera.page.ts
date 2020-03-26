@@ -72,7 +72,7 @@ export class DiagnoseCameraPage {
         canvas.height = height;
         // @ts-ignore
         // context.drawImage(video, ((width - sw) / 2), height / 2, sw, sh, 0, 0, sw, sh);
-        context.drawImage(video, 0, 0, width, height, 0, 0, width, height);
+        context.drawImage(video, (width - contentWidth) / 2, height / 4, contentWidth, contentHeight, 0, 0, contentWidth, contentHeight);
         // @ts-ignore
         // document.getElementById('image').src = canvas.toDataURL('image/png', 1.0);
         this.storage.set('imageSrc', canvas.toDataURL('image/png', 1.0));
