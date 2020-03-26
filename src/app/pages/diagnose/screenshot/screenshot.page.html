@@ -6,7 +6,7 @@
 
 <ion-content #content>
     <canvas id="canvas" style="display:none"></canvas>
-    <img *ngIf="url" id="image" [src]="url">
+    <img id="image" style="display: none">
     <div class="boundary" #boundary>
         <img id="img" #img>
         <div cdkDragBoundary=".boundary" [cdkDragFreeDragPosition]="position" (cdkDragEnded)="move($event)" cdkDrag class="draggable" #drag>
@@ -20,11 +20,12 @@
             <div class="box" style="border-top: 1px dashed #e0c7be;border-right: 1px dashed #e0c7be;"></div>
             <div class="box" style="border-top: 1px dashed #e0c7be;"></div>
         </div>
+        <div style="display: flex;align-items:center;justify-content: center;position: absolute;bottom: 10px;width: 100%;">
+            <ion-button style="--background: #fff;--color:#4973fe;" (click)="rephotograph()">rephotograph</ion-button>
+            <ion-button style="--background: #4973fe;--color:#fff;" (click)="confirm()">confirm</ion-button>
+        </div>
     </div>
-    <div style="display: flex;align-items:center;justify-content: center;margin-top: 10%">
-        <ion-button style="--background: #fff;--color:#4973fe;" (click)="rephotograph()">rephotograph</ion-button>
-        <ion-button style="--background: #4973fe;--color:#fff;" (click)="confirm()">confirm</ion-button>
-    </div>
+
 
 
 </ion-content>

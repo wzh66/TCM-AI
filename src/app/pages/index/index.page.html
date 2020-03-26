@@ -8,15 +8,22 @@
         </ion-slide>
     </ion-slides>
     <ion-list>
-        <div style="display:flex;align-items:center;justify-content:center;">
-            <ion-chip color="primary" routerLink="/pages/diagnose/list">
-                <ion-icon name="camera"></ion-icon>
-                <ion-label>Start Self-Decection</ion-label>
-            </ion-chip>
-            <a style="font-size: 12px;position:absolute;right:15px;top:25px;text-decoration: underline;" (click)="toRecord()">
-                My Records
-            </a>
-        </div>
+        <ion-row>
+            <ion-col size="3"></ion-col>
+            <ion-col size="6">
+                <ion-chip color="primary" routerLink="/pages/diagnose/list">
+                    <ion-icon name="camera"></ion-icon>
+                    <ion-label style="font-size: 12px">Start Self-Decection</ion-label>
+                </ion-chip>
+            </ion-col>
+            <ion-col size="3">
+                <a style="font-size: 12px;text-decoration: underline;float: right;margin-top: 25px"
+                   (click)="toRecord()">
+                    My Records
+                </a>
+            </ion-col>
+        </ion-row>
+
         <p class="text">1. Based on your body conditions, TCM expert will give you health evaluation and suggestions for
             COVID -19.</p>
         <p class="text">2. The health suggestions are from the guildance of National Administration of Traditional

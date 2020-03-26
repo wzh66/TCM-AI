@@ -1,21 +1,7 @@
-import {Component, ElementRef, Inject, ViewChild} from '@angular/core';
+import {Component, ElementRef, Inject, OnInit, ViewChild} from '@angular/core';
 import {StorageService} from '../../../@core/utils/storage.service';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {LoadingService} from '../../../@core/utils/loading.service';
-
-
-declare var $: any;
-$.extend({
-    send(url, jsonObject, method, callback) {
-        const data = method.toUpperCase() == 'GET' ? jsonObject : JSON.stringify(jsonObject);
-        // @ts-ignore
-        request(url, data, method, callback, 'application/json;charset=UTF-8', true);
-    },
-    upload(file, callback) {
-        // @ts-ignore
-        request(file, callback);
-    }
-});
 
 
 @Component({
@@ -23,7 +9,7 @@ $.extend({
     templateUrl: './camera.page.html',
     styleUrls: ['./camera.page.scss'],
 })
-export class DiagnoseCameraPage {
+export class DiagnoseCameraPage{
     show = false;
     video = null;
     @ViewChild('video', {static: false}) private videoRef;
@@ -33,12 +19,17 @@ export class DiagnoseCameraPage {
     constructor(@Inject('PREFIX_URL') private PREFIX_URL,
                 private storage: StorageService,
                 private router: Router,
-                private loadingSvc: LoadingService) {
+                private loadingSvc: LoadingService,
+                private route: ActivatedRoute) {
     }
 
     ionViewDidEnter() {
+        if (this.route.snapshot.queryParams.show) {
+            this.show = false;
+        }
         this.camera();
     }
+
 
     camera() {
         navigator.mediaDevices.getUserMedia({audio: false, video: {facingMode: 'user'}})
@@ -81,7 +72,7 @@ export class DiagnoseCameraPage {
         // @ts-ignore
         // document.getElementById('image').src = canvas.toDataURL('image/png', 1.0);
         this.storage.set('imageSrc', canvas.toDataURL('image/png', 1.0));
-        this.loadingSvc.show('loading', 1000).then();
+        this.loadingSvc.show('loading', 500).then();
         this.router.navigate(['/pages/diagnose/screenshot']);
     }
 }

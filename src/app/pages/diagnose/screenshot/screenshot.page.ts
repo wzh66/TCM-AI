@@ -2,7 +2,6 @@ import {Component, ElementRef, Inject, OnInit, ViewChild} from '@angular/core';
 import {StorageService} from '../../../@core/utils/storage.service';
 import {Router} from '@angular/router';
 import {DialogService} from '../../../@core/modules/dialog';
-import {LoadingService} from '../../../@core/utils/loading.service';
 
 declare var $: any;
 
@@ -16,6 +15,7 @@ export class DiagnoseScreenshotPage {
     @ViewChild('img', {static: false}) private imgRef;
     @ViewChild('drag', {static: false}) private drag: ElementRef;
     @ViewChild('content', {static: false}) private content;
+    @ViewChild('boundary', {static: false}) private boundary;
     sx;
     sy;
     url;
@@ -27,13 +27,25 @@ export class DiagnoseScreenshotPage {
     constructor(private storage: StorageService,
                 private router: Router,
                 private dialogSvc: DialogService,
-                private loadingSvc: LoadingService,
                 @Inject('PREFIX_URL') private PREFIX_URL,) {
     }
 
     ionViewDidEnter() {
         // @ts-ignore
         document.getElementById('img').src = this.imageSrc;
+        const image = new Image();
+        image.src = this.imageSrc;
+        image.onload = () => {
+            const width = this.boundary.nativeElement.clientWidth;
+            const height = this.boundary.nativeElement.clientHeight;
+            console.log(width, height);
+            this.position = {
+                x: (width - 270) / 2,
+                y: (height - 270) / 2
+            };
+            this.sx = (width - 270) / 2;
+            this.sy = (height - 270) / 2;
+        };
     }
 
     request(data) {
@@ -60,16 +72,14 @@ export class DiagnoseScreenshotPage {
     dump(res) {
         const result = JSON.parse(res);
         if (!result.result) {
-            this.loadingSvc.hide();
             this.dialogSvc.show({
                 content: 'Please take another picture！', cancel: '', confirm: 'I know'
             }).subscribe(value => {
                 if (value.value) {
-                    this.router.navigate(['/pages/diagnose/camera']);
+                    this.router.navigate(['/pages/diagnose/camera'], {queryParams: {show: false}});
                 }
             });
         } else {
-            this.loadingSvc.hide();
             this.storage.set('fileId', result.result);
             this.router.navigate(['/pages/diagnose/question']);
         }
@@ -77,7 +87,7 @@ export class DiagnoseScreenshotPage {
     }
 
     rephotograph() {
-        this.router.navigate(['/pages/diagnose/camera']);
+        this.router.navigate(['/pages/diagnose/camera'], {queryParams: {show: false}});
     }
 
     confirm() {
@@ -91,10 +101,9 @@ export class DiagnoseScreenshotPage {
         canvas.height = h;
         // @ts-ignore
         context.drawImage(img, this.sx, this.sy, w, h, 0, 0, w, h);
-        // this.loadingSvc.show('loading', 0);
         // @ts-ignore
         this.url = canvas.toDataURL('image/png', 1.0);
-        /*this.request(this.imageSrc);*/
+        this.request(this.url);
     }
 
     move(e) {
@@ -102,7 +111,7 @@ export class DiagnoseScreenshotPage {
         transform = transform.slice(transform.indexOf('(') + 1);
         transform = transform.slice(0, transform.indexOf(')'));
         transform = transform.split(',');
-        this.sx = parseInt(transform[0]);
-        this.sy = parseInt(transform[1]);
+        this.sx = parseInt(transform[0], 10);
+        this.sy = parseInt(transform[1], 10);
     }
 }

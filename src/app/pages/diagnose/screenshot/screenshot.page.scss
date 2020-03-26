@@ -2,9 +2,7 @@
   position: relative;
   img {
     display: block;
-    width: 150%;
-    transform: translate3d(-25%,0,0);
-    max-width: unset;
+    width: 100%;
   }
 }
 .draggable{
