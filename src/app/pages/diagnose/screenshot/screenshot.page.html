@@ -1,12 +1,12 @@
 <ion-header>
     <ion-toolbar>
-        <p>Move the box so that the tongue is in the box</p>
+        <p>{{activeText}}</p>
     </ion-toolbar>
 </ion-header>
 
 <ion-content #content>
     <canvas id="canvas" style="display:none"></canvas>
-    <img id="image" style="display: none">
+    <img id="image" style="display:none">
     <div class="boundary" #boundary>
         <img id="img" #img>
         <div cdkDragBoundary=".boundary" [cdkDragFreeDragPosition]="position" (cdkDragEnded)="move($event)" cdkDrag class="draggable" #drag>

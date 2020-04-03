@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {StorageService} from '../../../@core/utils/storage.service';
 import {Router} from '@angular/router';
 import {DialogService} from '../../../@core/modules/dialog';
@@ -10,10 +10,16 @@ import {DialogService} from '../../../@core/modules/dialog';
 })
 export class DiagnoseResultPage implements OnInit {
     result;
+    record;
+    originalImg;
+    localImg;
+    show = false;
+    file;
 
     constructor(private storage: StorageService,
                 private router: Router,
-                private dialogSvc: DialogService) {
+                private dialogSvc: DialogService,
+                @Inject('FILE_PREFIX_URL') public FILE_PREFIX_URL) {
 
     }
 
@@ -23,10 +29,13 @@ export class DiagnoseResultPage implements OnInit {
 
     getData() {
         const result = this.storage.getObject('result');
-        if (result.suggestions) {
-            result.suggestions = result.suggestions.replace(/\\r\\n/gi, '<br>');
-            this.result = result;
+        const record = JSON.parse(result.diagnosisDetail);
+        this.originalImg = result.imgs;
+        this.localImg = result.tongueImgs;
+        if (record.suggestions) {
+            record.suggestions = record.suggestions.replace(/\\r\\n/gi, '<br>');
         }
+        this.record = record;
     }
 
     home() {
@@ -37,4 +46,8 @@ export class DiagnoseResultPage implements OnInit {
         this.router.navigate(['pages/record/list']);
     }
 
+    showGallery(file) {
+        this.show = true;
+        this.file = file;
+    }
 }

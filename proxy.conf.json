@@ -1,6 +1,6 @@
 {
   "/api": {
-    "target": "https://www.mytcmonline.com",
+    "target": "http://admin.mytcmonline.com",
     "secure": false,
     "pathRewrite": {
       "^/api/": ""

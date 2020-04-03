@@ -24,14 +24,18 @@ ion-list{
       }
 
       &::ng-deep{
-        .flag-container{
-          background: #eee;
-        }
+          .flag-container{
+            background: #eee;
+            width: 48px;
+            height: 28.8px;
+          }
       }
     }
     input{
       border: 1px solid #dadada;
       padding: 5px;
+      width: 175.2px;
+      height: 28.8px;
     }
   }
 }

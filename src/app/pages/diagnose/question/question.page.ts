@@ -82,6 +82,7 @@ export class DiagnoseQuestionPage {
         const body = {
             key: this.storage.get('key1'),
             fileId: this.storage.get('fileId') ? this.storage.get('fileId') : '',
+            tongueFileId: this.storage.get('tongueFileId') ? this.storage.get('tongueFileId') : '',
             featureList: (() => {
                 const data = [];
                 // tslint:disable-next-line:forin

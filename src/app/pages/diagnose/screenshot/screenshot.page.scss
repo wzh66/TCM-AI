@@ -1,11 +1,17 @@
 .boundary {
   position: relative;
+
   img {
     display: block;
     width: 100%;
+    -moz-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
+    transform: scaleX(-1);
   }
 }
-.draggable{
+
+.draggable {
   width: 270px;
   height: 270px;
   border: 5px solid #6a88e5;
@@ -14,21 +20,25 @@
   box-sizing: border-box;
   left: 0;
   top: 0;
-  .box{
+
+  .box {
     width: 86px;
     height: 86px;
     display: inline-block;
     border: none;
   }
 }
-ion-toolbar{
+
+ion-toolbar {
   --background: #5d81f7 !important;
-  p{
+
+  p {
     text-align: center;
     color: #fff;
   }
 }
-ion-button{
+
+ion-button {
   width: 30%;
   margin: 0 20px;
 }

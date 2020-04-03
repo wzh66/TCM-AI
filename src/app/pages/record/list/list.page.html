@@ -13,12 +13,15 @@
     <div *ngIf="record?.length < 1">
         <ion-item lines="none">
             <ion-label>
-                <h2>No record!</h2>
+                <h2 style="margin-top: 70px;text-align: center">No record!</h2>
             </ion-label>
         </ion-item>
     </div>
     <div *ngIf="record?.length > 0">
         <ion-item *ngFor="let item of record" [routerLink]="['/pages/record/item',item.id]" detail="false">
+            <ion-thumbnail slot="start">
+                <img src="{{FILE_PREFIX_URL+item.tongueImgs}}">
+            </ion-thumbnail>
             <ion-label>
                 <h2>{{item.diagnosisDetail.features}}</h2>
                 <p>{{item.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</p>

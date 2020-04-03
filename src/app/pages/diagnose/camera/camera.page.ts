@@ -2,6 +2,7 @@ import {Component, ElementRef, Inject, OnInit, ViewChild} from '@angular/core';
 import {StorageService} from '../../../@core/utils/storage.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {LoadingService} from '../../../@core/utils/loading.service';
+import {DiagnoseService} from '../diagnose.service';
 
 
 @Component({
@@ -9,18 +10,23 @@ import {LoadingService} from '../../../@core/utils/loading.service';
     templateUrl: './camera.page.html',
     styleUrls: ['./camera.page.scss'],
 })
-export class DiagnoseCameraPage{
+export class DiagnoseCameraPage {
     show = false;
     video = null;
     @ViewChild('video', {static: false}) private videoRef;
     @ViewChild('tongue', {static: false}) private tongue: ElementRef;
     @ViewChild('content', {static: false}) private content;
+    key = this.storage.get('key1');
 
     constructor(@Inject('PREFIX_URL') private PREFIX_URL,
                 private storage: StorageService,
                 private router: Router,
                 private loadingSvc: LoadingService,
-                private route: ActivatedRoute) {
+                private route: ActivatedRoute,
+                private diagnoseSvc: DiagnoseService) {
+        this.diagnoseSvc.getMember(this.key).subscribe(res => {
+            console.log(res);
+        });
     }
 
     ionViewDidEnter() {
@@ -32,14 +38,51 @@ export class DiagnoseCameraPage{
 
 
     camera() {
-        navigator.mediaDevices.getUserMedia({audio: false, video: {facingMode: 'user'}})
-            .then((stream) => {
-                this.video = document.querySelector('video');
-                this.video.srcObject = stream;
-            })
-            .catch((err) => {
-                console.log(err);
-            });
+        if (navigator.mediaDevices.getUserMedia) {
+            // 最新的标准API
+            navigator.mediaDevices.getUserMedia({audio: false, video: {facingMode: 'user'}})
+                .then((stream) => {
+                    this.video = document.querySelector('video');
+                    this.video.srcObject = stream;
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        }
+        // @ts-ignore
+        else if (navigator.webkitGetUserMedia) {
+            // webkit核心浏览器
+            // @ts-ignore
+            navigator.webkitGetUserMedia({audio: false, video: {facingMode: 'user'}},
+                (stream) => {
+                    this.video = document.querySelector('video');
+                    this.video.srcObject = stream;
+                }, (err) => {
+                    console.log(err);
+                });
+        }
+        // @ts-ignore
+        else if (navigator.mozGetUserMedia) {
+            // firfox浏览器
+            // @ts-ignore
+            navigator.mozGetUserMedia({audio: false, video: {facingMode: 'user'}},
+                (stream) => {
+                    this.video = document.querySelector('video');
+                    this.video.srcObject = stream;
+                }, (err) => {
+                    console.log(err);
+                });
+        } else if (navigator.getUserMedia) {
+            // 旧版API
+            navigator.getUserMedia({audio: false, video: {facingMode: 'user'}},
+                (stream) => {
+                    this.video = document.querySelector('video');
+                    this.video.srcObject = stream;
+                }, (err) => {
+                    console.log(err);
+                });
+        }
+
     }
 
     onclick() {
@@ -72,7 +115,7 @@ export class DiagnoseCameraPage{
         // @ts-ignore
         // document.getElementById('image').src = canvas.toDataURL('image/png', 1.0);
         this.storage.set('imageSrc', canvas.toDataURL('image/png', 1.0));
-        this.loadingSvc.show('loading', 500).then();
+        // this.loadingSvc.show('loading', 500).then();
         this.router.navigate(['/pages/diagnose/screenshot']);
     }
 }

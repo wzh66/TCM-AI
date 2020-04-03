@@ -1,7 +1,8 @@
-import {Component, ElementRef, Inject, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, Inject, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {StorageService} from '../../../@core/utils/storage.service';
 import {Router} from '@angular/router';
 import {DialogService} from '../../../@core/modules/dialog';
+import {interval as observableInterval} from 'rxjs';
 
 declare var $: any;
 
@@ -10,7 +11,7 @@ declare var $: any;
     templateUrl: './screenshot.page.html',
     styleUrls: ['./screenshot.page.scss'],
 })
-export class DiagnoseScreenshotPage {
+export class DiagnoseScreenshotPage implements OnDestroy {
     imageSrc = this.storage.get('imageSrc');
     @ViewChild('img', {static: false}) private imgRef;
     @ViewChild('drag', {static: false}) private drag: ElementRef;
@@ -23,11 +24,14 @@ export class DiagnoseScreenshotPage {
         x: 0,
         y: 0
     };
+    second = 10;
+    timePromise;
+    activeText = 'Move the box so that the tongue is in the box';
 
     constructor(private storage: StorageService,
                 private router: Router,
                 private dialogSvc: DialogService,
-                @Inject('PREFIX_URL') private PREFIX_URL,) {
+                @Inject('PREFIX_URL') private PREFIX_URL) {
     }
 
     ionViewDidEnter() {
@@ -73,14 +77,18 @@ export class DiagnoseScreenshotPage {
         const result = JSON.parse(res);
         if (!result.result) {
             this.dialogSvc.show({
-                content: 'Please take another picture！', cancel: '', confirm: 'I know'
+                title: 'Warm prompt',
+                content: `<p>Please try to avoid taking photos in low-light situations.</p><p><img src="/assets/images/example.png" width="250" height="auto"/></p>`,
+                cancel: '',
+                confirm: 'rephotograph'
             }).subscribe(value => {
                 if (value.value) {
                     this.router.navigate(['/pages/diagnose/camera'], {queryParams: {show: false}});
                 }
             });
         } else {
-            this.storage.set('fileId', result.result);
+            this.storage.set('fileId', result.result.fileId);
+            this.storage.set('tongueFileId', result.result.tongueFileId);
             this.router.navigate(['/pages/diagnose/question']);
         }
 
@@ -104,6 +112,16 @@ export class DiagnoseScreenshotPage {
         // @ts-ignore
         this.url = canvas.toDataURL('image/png', 1.0);
         this.request(this.url);
+        this.timePromise = observableInterval(1000).subscribe(() => {
+            if (this.second <= 0) {
+                this.timePromise.unsubscribe();
+                this.second = 10;
+                this.activeText = 'Move the box so that the tongue is in the box';
+            } else {
+                this.activeText = 'The analysis is expected to take ' + this.second + ' seconds';
+                this.second = this.second - 1;
+            }
+        });
     }
 
     move(e) {
@@ -113,5 +131,11 @@ export class DiagnoseScreenshotPage {
         transform = transform.split(',');
         this.sx = parseInt(transform[0], 10);
         this.sy = parseInt(transform[1], 10);
+    }
+
+    ngOnDestroy() {
+        if (this.timePromise) {
+            this.timePromise.unsubscribe();
+        }
     }
 }

@@ -39,6 +39,7 @@ export class DiagnoseListPage implements OnInit {
             areaCode: new FormControl('', [])
         });
         this.auth();
+        this.getPosition();
     }
 
     ionViewDidEnter() {
@@ -47,25 +48,17 @@ export class DiagnoseListPage implements OnInit {
             preferredCountries: ['id'],
             nationalMode: true,
             autoPlaceholder: 'off',
-            /*geoIpLookup: callback => {
-                $.get('http://ipinfo.io', () => {
-                }, 'jsonp').always(resp => {
-                    console.log('resp:', resp);
-                    const countryCode = (resp && resp.country) ? resp.country : '';
-                    callback(countryCode);
-                });
-            },*/
         });
     }
 
     getPosition() {
         const geo = new qq.maps.Geolocation('PDBBZ-2NVWV-7GAPA-UKVP5-YED6S-FRB6L', 'danius');
         geo.getIpLocation((position) => {
-            if (position) {
+            /*if (position) {
                 this.dialogSvc.show({
                     content: 'Successful positioning！', cancel: '', confirm: 'I know'
                 }).subscribe();
-            }
+            }*/
             const body = {
                 lat: JSON.parse(JSON.stringify(position)).lat,
                 lng: JSON.parse(JSON.stringify(position)).lng
@@ -119,7 +112,7 @@ export class DiagnoseListPage implements OnInit {
         }*/
         if (!this.form.get('location').value) {
             this.dialogSvc.show({
-                content: 'Please get your location', cancel: '', confirm: 'I know'
+                content: 'Please turn on your GPS', cancel: '', confirm: 'I know'
             }).subscribe();
             return false;
         }

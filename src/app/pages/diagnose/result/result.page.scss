@@ -13,3 +13,28 @@ ion-button{
   width: 40%;
   margin-left: 57%;
 }
+ion-col{
+  padding: 0;
+  span{
+    position: absolute;
+    background: #5552fc;
+    color: #fff;
+    padding: 5px 10px;
+    border-top-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    font-size: 14px;
+  }
+  img{
+    -moz-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
+    transform: scaleX(-1);
+  }
+}
+weui-gallery{
+  &::ng-deep{
+    .weui-gallery__img{
+      transform: scaleX(-1);
+    }
+  }
+}

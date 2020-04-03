@@ -4,7 +4,33 @@ ion-list{
     color: #1f95ff;
   }
   p{
-    margin-left: 15px;
+    margin:15px;
     color: #9a9a9a;
+  }
+}
+ion-col{
+  padding: 0;
+   span{
+     position: absolute;
+     background: #5552fc;
+     color: #fff;
+     padding: 5px 10px;
+     border-top-left-radius: 5px;
+     border-bottom-right-radius: 5px;
+     font-size: 14px;
+   }
+  img{
+    -moz-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
+    transform: scaleX(-1);
+  }
+ }
+
+weui-gallery{
+  &::ng-deep{
+    .weui-gallery__img{
+      transform: scaleX(-1);
+    }
   }
 }

@@ -18,8 +18,7 @@ export class RecordListPage {
     constructor(private location: LocationStrategy,
                 private recordSvc: RecordService,
                 private storage: StorageService,
-                private dialogSvc: DialogService,
-                private router: Router) {
+                @Inject('FILE_PREFIX_URL') public FILE_PREFIX_URL) {
         this.getData();
     }
 
